@@ -1,0 +1,43 @@
+{
+	goals: [
+		{
+			goal: 'Services', 
+			duration: '8',
+			quality: '',
+			reasons: ['Apply to jobs in Dubai', 'Apply to remote jobs on front-end portals', 'Launch my own products for ad revenues', 'Open up new vertical on Upwork.'], 
+			habits: [{'Early morning sessions': 7}], 
+			currentWeek: 8,
+			weeklyStrength: [0.8, 1, 0.6, 0.4, 1, 0.8, 1],
+
+			tasks: ['###firefighting', '###clientcalls', '##invitations', '#backoffice', '###opportunities', '#danda', '##enquiries', '##actives', '##inbox', '##portfolio', '###delegation'], 
+			mode: 'tasks',
+		},
+		{
+			goal: 'Learn React Native', 
+			duration: '4',
+			quality: '🔥💯',
+			reasons: ['Apply to jobs in Dubai', 'Apply to remote jobs on front-end portals', 'Launch my own products for ad revenues', 'Open up new vertical on Upwork.'], 
+			habits: [{'Early morning sessions': 7}], 
+			currentWeek: 1,
+			weeklyStrength: [],
+		},
+		{
+			goal: 'Lose weight', 
+			duration: '12',
+			quality: '72%',
+			reasons: ['Look good', 'wear awesome clothes', 'Dance'], 
+			habits: [{'gym': 4}, {'sleep': 6}, {'eat': 7}], 
+			currentWeek: 8,
+			weeklyStrength: [0.8, 1, 0.6, 0.4, 1, 0.8, 1],
+		},
+		{
+			goal: 'Learn to cook', 
+			duration: '8',
+			quality: '0%',
+			reasons: ['Travel Alone', 'Save on restaurant money'], 
+			habits: [{'cook': 2}], 
+			currentWeek: 0,
+			weeklyStrength: [],
+		}
+	]
+}

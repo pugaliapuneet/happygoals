@@ -1,0 +1,63 @@
+{
+	wishlist: {
+		money: [
+			{
+				goal: 'PuneetPugalia Portfolio', 
+				duration: '2',
+				reasons: ['Apply to jobs in Dubai', 'Apply to remote jobs on front-end portals', 'Launch my own products for ad revenues', 'Open up new vertical on Upwork.'], 
+				habits: [{'Early morning sessions': 7}], 
+			},
+			{
+				goal: 'Monetize React Native', 
+				duration: '2',
+				reasons: ['Apply to jobs in Dubai', 'Apply to remote jobs on front-end portals', 'Launch my own products for ad revenues', 'Open up new vertical on Upwork.'], 
+				habits: [{'Early morning sessions': 7}], 
+			},
+			{
+				goal: '1 million users for HappyGoals', 
+				duration: '2',
+				reasons: ['Apply to jobs in Dubai', 'Apply to remote jobs on front-end portals', 'Launch my own products for ad revenues', 'Open up new vertical on Upwork.'], 
+				habits: [{'Early morning sessions': 7}], 
+			},
+		], 
+		levelUp: [
+			{
+				goal: 'Learn counterintuitives', 
+				duration: '12',
+			},
+			{
+				goal: 'Blockchain', 
+				duration: '4',
+				
+			},
+			{
+				goal: 'Fluttr', 
+				duration: '4',
+				
+			},
+			{
+				goal: 'TensorFlow', 
+				duration: '4',
+				
+			},
+		], 
+		experiences: [
+			{
+				goal: 'Travel India', 
+				duration: '12',
+				reasons: ['Apply to jobs in Dubai', 'Apply to remote jobs on front-end portals', 'Launch my own products for ad revenues', 'Open up new vertical on Upwork.'], 
+				habits: [{'Early morning sessions': 7}], 
+			},
+			{
+				goal: 'Learn Piano', 
+				duration: '4',
+				
+			},
+			{
+				goal: 'Dog', 
+				duration: '4',
+				
+			},
+		], 
+	}
+}

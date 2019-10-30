@@ -21,6 +21,8 @@ class JournalScreen extends Component{
 		this.state = {};
 
 		this.title = "0 Activities"
+		this.view_date = moment().format("DD/MM/YYYY")
+		this.readableDate = "Today"
 	}
 
 	componentDidMount() {
@@ -175,6 +177,26 @@ class JournalScreen extends Component{
 
 	_keyExtractor = (item, index) => item.itemName+item.createdAt;
 
+	chageDate = (direction) => {
+		if (direction == 'prev') {
+			this.view_date=moment(this.view_date, 'DD/MM/YYYY').subtract(1, 'days').format("DD/MM/YYYY");
+		}
+		else if (direction == 'next' && moment(this.view_date, 'DD/MM/YYYY')<moment().subtract(1, 'days')) {
+			this.view_date=moment(this.view_date, 'DD/MM/YYYY').add(1, 'days').format("DD/MM/YYYY");
+		}
+		else
+			return;
+		this.loadJournal();
+		if (this.view_date == moment().format("DD/MM/YYYY")) {
+			this.readableDate = "Today";
+		}
+		else if (this.view_date == moment().subtract(1, 'days').format("DD/MM/YYYY")) {
+			this.readableDate = "Yesterday";
+		}
+		else
+			this.readableDate = this.view_date;
+		ToastAndroid.show(this.view_date, ToastAndroid.LONG);
+	}
 
 	render() {
 		let that = this;
@@ -233,10 +255,16 @@ class JournalScreen extends Component{
 					}
 
 					// - "+logs[date].length+" activities
-					if(readableDate == "Today") {
+					if(date == this.view_date) {
 						// sectionLogs.push({title: logs[date].length+" Activities", data: newlogs});
 						this.title = logs[date].length+" Activities";
 						this.logsArray = newlogs;
+						pointsToday = pointsForTheDay;
+					}
+					else if(!(this.view_date in logs)) {
+						this.title = "0 Activities";
+						this.logsArray = [];
+						pointsToday = 0;
 					}
 
 					//generate chart data
@@ -293,9 +321,9 @@ class JournalScreen extends Component{
 
 					<View style={[maximizedblue.card, {paddingTop: 20, padding: 0, margin: 0, borderRadius: 0}]}>
 						<View style={[styles.rowwrap, {justifyContent: 'space-between', marginBottom: 20}]}>
-							<Icon name='arrow-left' type="material-community" color="white" size={21} containerStyle={{paddingHorizontal: 20}}/>
-							<Text style={{fontFamily: 'Quicksand-Medium', textAlign: 'center', color: 'white'}}>Today</Text>
-							<Icon name='arrow-right' type="material-community" color="white" size={21} containerStyle={{paddingHorizontal: 20}}/>
+							<Icon name='arrow-left' type="material-community" color="white" size={21} containerStyle={{paddingHorizontal: 20}} onPress={() => this.chageDate('prev')}/>
+							<Text style={{fontFamily: 'Quicksand-Medium', textAlign: 'center', color: 'white'}}>{this.readableDate}</Text>
+							<Icon name='arrow-right' type="material-community" color="white" size={21} containerStyle={{paddingHorizontal: 20}} onPress={() => this.chageDate('next')}/>
 						</View>
 						<Text style={styles.journalScore}>{pointsToday}</Text>
 						<BarChart

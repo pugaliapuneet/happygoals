@@ -269,7 +269,19 @@ class JournalScreen extends Component{
 
 					//generate chart data
 					chartData.unshift(logs[date].length);
-					chartDataOfPoints.unshift(pointsForTheDay);
+					if (date == this.view_date) {
+						chartDataOfPoints.unshift({
+							value: pointsForTheDay,
+							svg: {
+								fill: 'green',
+							},
+						});
+					}
+					else {
+						chartDataOfPoints.unshift({
+							value: pointsForTheDay,
+						});
+					}
 					stackChartData.unshift({
 						date: date,
 						morning: morning,
@@ -331,7 +343,8 @@ class JournalScreen extends Component{
 							data={ chartDataOfPoints }
 							contentInset={{ top: 0, bottom: 10, left: 0, right: 0}}
 							curve={ shape.curveNatural }
-							svg={{ stroke: 'rgba(0,0,0,0)', fill1: "rgba(0,0,0,0.25)", fill2: "#006064", fill: "rgba(0,0,0,0.3)",strokeWidth: 2, strokeOpacity: 1 }}>
+							svg={{ stroke: 'rgba(0,0,0,0)', fill1: "rgba(0,0,0,0.25)", fill2: "#006064", fill: "rgba(0,0,0,0.3)",strokeWidth: 2, strokeOpacity: 1 }}
+							yAccessor={({ item }) => item.value}>
 						</BarChart>
 					</View>
 

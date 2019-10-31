@@ -51,7 +51,7 @@ class model {
 		})
 	}
 
-	getActiveGoals(goalName = null) {
+	getActiveGoals(goalName = null, forDate = null) {
 		let dbgoals = new Datastore({ filename: 'goals1', autoload: true });
 		let that = this;
 
@@ -95,7 +95,7 @@ class model {
 
 							//promise array - to get log data
 							// console.log("Getting logs for ", g.name, i.name, g.startDate);
-							p.push(that.getLogData(g.name, i.name, g.startDate));
+							p.push(that.getLogData(g.name, i.name, g.startDate, forDate));
 						})
 						//reps required in total for the goal
 						goals[index].totalDailyRepetitionTarget = dailyRepetitionTarget;
@@ -479,9 +479,15 @@ class model {
 
 	}
 
-	getCountTodayOf = (goalName, itemName) => {
-
-		let todayStart = moment().startOf('day').unix(); // console.log(todayStart);
+	getCountTodayOf = (goalName, itemName, forDate) => {
+		
+		let todayStart = ((forDate)?moment(forDate, "DD/MM/YYYY"):moment()).startOf('day').unix();
+		// if (forDate) {
+		// 	todayStart = moment(forDate, "DD/MM/YYYY").startOf('day').unix();
+		// }
+		// else {
+		// 	todayStart = moment().startOf('day').unix(); // console.log(todayStart);
+		// }
 		let that = this;
 
 		// let dblogs = new Datastore({ filename: 'logs2', autoload: true });
@@ -561,11 +567,11 @@ class model {
 		});
 	}
 
-	getLogData(goalName, itemName, startDate) { // console.log("getLogData", goalName, itemName);
+	getLogData(goalName, itemName, startDate, forDate) { // console.log("getLogData", goalName, itemName);
 		// this.dblogs = new Datastore({ filename: 'logs2', autoload: true });
 
 		let x = this.getItemLogs(goalName, itemName);
-		let y = this.getCountTodayOf(goalName, itemName);
+		let y = this.getCountTodayOf(goalName, itemName, forDate);
 		let z = this.getCount(goalName, itemName);
 		let a = this.getLastActivity(goalName, itemName);
 		let b = this.getSecondLastActivity(goalName, itemName);

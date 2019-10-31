@@ -49,7 +49,7 @@ class JournalScreen extends Component{
 	loadJournal = () => {
 		const that = this;
 
-		Promise.all([model.getLogs(), model.getPointsTable(), model.getActiveGoals()]).then(function(array){
+		Promise.all([model.getLogs(), model.getPointsTable(), model.getActiveGoals(null, this.view_date)]).then(function(array){
 
 			let logs = array[0];
 			let pointsTable = array[1];

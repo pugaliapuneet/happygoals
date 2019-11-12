@@ -4,7 +4,7 @@ var moment = require('moment');
 class model {
 	dbgoals = new Datastore({ filename: 'goals1', autoload: true });
 	dblogs = new Datastore({ filename: 'logs2', autoload: true });
-
+	recentDays = 7;
 
 	constructor() {
 		// console.log("Applying index");
@@ -156,6 +156,8 @@ class model {
 						let totalPointsToday = 0;
 						let totalCount = 0;
 						let totalPoints = 0;
+						let totalCountRecent = 0;
+						let totalPointsRecent = 0;
 						goalsWithPromises[i2].labels = [];
 						goalsWithPromises[i2].backlogs = [];
 						let dayScore = {};
@@ -212,6 +214,12 @@ class model {
 								totalPoints += itemPromise[2]*goalsWithPromises[i2].items[i3].points;
 							}
 
+							//Recent counts/points
+							if (itemPromise[5]) {
+								totalCountRecent += itemPromise[5];
+								totalPointsRecent += itemPromise[5]*goalsWithPromises[i2].items[i3].points;
+							}
+
 							goalsWithPromises[i2].items[i3].lastActivity = itemPromise[3];
 							goalsWithPromises[i2].items[i3].secondLastActivity = itemPromise[4];
 							if(itemPromise[3] > 7) // || itemPromise[3] == -1
@@ -246,6 +254,7 @@ class model {
 						if(goalsWithPromises[i2].mode == "tasks") {
 							goalsWithPromises[i2].bigScore = Math.round(goalsWithPromises[i2].totalPoints/goalsWithPromises[i2].daysSpent*10)/10;
 							goalsWithPromises[i2].isCompleted = goalsWithPromises[i2].totalPointsToday/goalsWithPromises[i2].bigScore >= 1 ? 1 : 0;
+							goalsWithPromises[i2].recentScore = Math.round(totalPointsRecent/((goalsWithPromises[i2].daysSpent>that.recentDays)?that.recentDays:goalsWithPromises[i2].daysSpent)*10)/10;
 						}
 						else if(goalsWithPromises[i2].mode == "habits") {
 							goalsWithPromises[i2].bigScore = Math.round(goalsWithPromises[i2].totalCount/(goalsWithPromises[i2].totalDailyRepetitionTarget*goalsWithPromises[i2].daysSpent)*100);
@@ -500,6 +509,16 @@ class model {
 
 	}
 
+	getRecentCount = (goalName, itemName) => {
+		let that = this;
+		let dateFrom = moment().subtract(that.recentDays, "days").startOf('day').unix();
+		return new Promise(function(resolve, reject) {
+			that.dblogs.count({goalName: goalName, itemName: itemName, timestamp: {$gt: dateFrom}, $not: {deleted: 1}}, function(err, count){
+				resolve(count);
+			})
+		});
+	}
+
 	getCount = (goalName, itemName) => {
 
 		let todayStart = moment().startOf('day').unix(); // console.log(todayStart);
@@ -575,8 +594,9 @@ class model {
 		let z = this.getCount(goalName, itemName);
 		let a = this.getLastActivity(goalName, itemName);
 		let b = this.getSecondLastActivity(goalName, itemName);
+		let c = this.getRecentCount(goalName, itemName);
 
-		let array = [x, y, z, a, b];
+		let array = [x, y, z, a, b, c];
 		let result = {};
 
 		return Promise.all(array);

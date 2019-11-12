@@ -186,7 +186,46 @@ class JournalScreen extends Component{
 		}
 		else
 			return;
-		this.loadJournal();
+		this.achievements = {
+			'2x': [],
+			'Top Day': [],
+			'4/5 stars': [],
+			'Improvements': [],
+			'Checked': [],
+		}
+		this.setState({refreshing: true});
+		let that = this;
+		model.getActiveGoals(null, this.view_date).then(function (goals) {
+			goals.forEach((goal) => {
+				//2x
+				if(goal.mode == "tasks" && goal.totalPointsToday >= goal.bigScore*2) {
+					that.achievements['2x'].push(goal.name);
+				}
+				else {
+					//improvements and completions
+					if(goal.isCompleted == 1 && goal.totalPointsToday > 0 && goal.mode == "tasks") {
+						that.achievements['Improvements'].push(goal.name);
+					}
+
+					if(goal.isCompleted == 1 && goal.totalCountToday > 0 && goal.mode == "habits") {
+						that.achievements['Checked'].push(goal.name);
+					}
+
+					//topDays
+					if(goal.mode == "tasks" && goal.totalPointsToday >= goal.topScore) {
+						that.achievements['Top Day'].push(goal.name);
+					}
+				}
+			})
+
+			that.setState({
+				goals: goals,
+				refreshing: false
+			});
+		}).catch(err => {
+			console.log("getActiveGoals() Error:", err);
+		})
+		// this.loadJournal();
 		if (this.view_date == moment().format("DD/MM/YYYY")) {
 			this.readableDate = "Today";
 		}

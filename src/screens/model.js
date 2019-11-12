@@ -491,18 +491,13 @@ class model {
 	getCountTodayOf = (goalName, itemName, forDate) => {
 		
 		let todayStart = ((forDate)?moment(forDate, "DD/MM/YYYY"):moment()).startOf('day').unix();
-		// if (forDate) {
-		// 	todayStart = moment(forDate, "DD/MM/YYYY").startOf('day').unix();
-		// }
-		// else {
-		// 	todayStart = moment().startOf('day').unix(); // console.log(todayStart);
-		// }
+		let todayEnd = ((forDate)?moment(forDate, "DD/MM/YYYY"):moment()).endOf('day').unix();
 		let that = this;
 
 		// let dblogs = new Datastore({ filename: 'logs2', autoload: true });
 
 		return new Promise(function(resolve, reject) {
-			that.dblogs.count({goalName: goalName, itemName: itemName, timestamp: {$gt: todayStart}, $not: {deleted: 1}}, function(err, count){
+			that.dblogs.count({goalName: goalName, itemName: itemName, $and: [{timestamp: {$gt: todayStart}}, {timestamp: {$lte: todayEnd}}], $not: {deleted: 1}}, function(err, count){
 				resolve(count);
 			})
 		});

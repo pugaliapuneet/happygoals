@@ -177,7 +177,7 @@ class JournalScreen extends Component{
 
 	_keyExtractor = (item, index) => item.itemName+item.createdAt;
 
-	chageDate = (direction) => {
+	changeDate = (direction) => {
 		if (direction == 'prev') {
 			this.view_date=moment(this.view_date, 'DD/MM/YYYY').subtract(1, 'days').format("DD/MM/YYYY");
 		}
@@ -194,10 +194,44 @@ class JournalScreen extends Component{
 			'Checked': [],
 		}
 		this.setState({refreshing: true});
+		let logs = this.state.logs;
 		let that = this;
-		model.getActiveGoals(null, this.view_date).then(function (goals) {
-			goals.forEach((goal) => {
-				//2x
+		model.getGoalsJournal().then((allGoals) => {
+			let goals = {};
+			Object.keys(logs).map((date) => {
+				let topScore = {};
+				logs[date].map((log) => {
+					if (goals[log.goalName] === undefined) {
+						goals[log.goalName] = {name:log.goalName, mode:allGoals[log.goalName].mode, totalCountToday:0, totalPointsToday:0, isCompleted:0, bigScore:0, topScore:0, totalPoints:0, totalCount:0};
+						goals[log.goalName].daysSpent = model.calculateCompletion(allGoals[log.goalName].startDate).totalDays;
+					}
+					if (date == that.view_date) {
+						goals[log.goalName]['totalPointsToday'] += that.state.pointsTable[log.goalName][log.itemName] ? that.state.pointsTable[log.goalName][log.itemName]:0;
+						goals[log.goalName]['totalCountToday'] += 1;
+					}
+					goals[log.goalName]['totalPoints'] += that.state.pointsTable[log.goalName][log.itemName] ? that.state.pointsTable[log.goalName][log.itemName]:0;
+					goals[log.goalName]['totalCount'] += 1;
+					if (topScore[log.goalName] === undefined) {
+						topScore[log.goalName] = 0;
+					}
+					topScore[log.goalName] += that.state.pointsTable[log.goalName][log.itemName] ? that.state.pointsTable[log.goalName][log.itemName]:0;
+					if (topScore[log.goalName]>goals[log.goalName]['topScore']) {
+						goals[log.goalName]['topScore'] = topScore[log.goalName];
+					}
+				});
+			});
+			Object.values(goals).map((goal) => {
+				if(goal.mode == "tasks") {
+					goal.bigScore = Math.round(goal.totalPoints/goal.daysSpent*10)/10;
+					goal.isCompleted = goal.totalPointsToday/goal.bigScore >= 1 ? 1 : 0;
+				}
+				else if(goal.mode == "habits") {
+					goal.bigScore = Math.round(goal.totalCount/(goal.totalDailyRepetitionTarget*goal.daysSpent)*100);
+					goal.isCompleted = goal.bigScore >= 100 ? 1 : 0;
+					if(goal.bigScore > 100)
+						goal.bigScore = 100;
+				}
+				
 				if(goal.mode == "tasks" && goal.totalPointsToday >= goal.bigScore*2) {
 					that.achievements['2x'].push(goal.name);
 				}
@@ -216,15 +250,43 @@ class JournalScreen extends Component{
 						that.achievements['Top Day'].push(goal.name);
 					}
 				}
-			})
-
+			});
 			that.setState({
-				goals: goals,
 				refreshing: false
 			});
 		}).catch(err => {
-			console.log("getActiveGoals() Error:", err);
-		})
+			console.log("getGoalsJournal() Error:", err);
+		});
+		// model.getActiveGoals(null, this.view_date).then(function (goals) {
+		// 	goals.forEach((goal) => {
+		// 		//2x
+		// 		if(goal.mode == "tasks" && goal.totalPointsToday >= goal.bigScore*2) {
+		// 			that.achievements['2x'].push(goal.name);
+		// 		}
+		// 		else {
+		// 			//improvements and completions
+		// 			if(goal.isCompleted == 1 && goal.totalPointsToday > 0 && goal.mode == "tasks") {
+		// 				that.achievements['Improvements'].push(goal.name);
+		// 			}
+
+		// 			if(goal.isCompleted == 1 && goal.totalCountToday > 0 && goal.mode == "habits") {
+		// 				that.achievements['Checked'].push(goal.name);
+		// 			}
+
+		// 			//topDays
+		// 			if(goal.mode == "tasks" && goal.totalPointsToday >= goal.topScore) {
+		// 				that.achievements['Top Day'].push(goal.name);
+		// 			}
+		// 		}
+		// 	})
+
+		// 	that.setState({
+		// 		goals: goals,
+		// 		refreshing: false
+		// 	});
+		// }).catch(err => {
+		// 	console.log("getActiveGoals() Error:", err);
+		// })
 		// this.loadJournal();
 		if (this.view_date == moment().format("DD/MM/YYYY")) {
 			this.readableDate = "Today";
@@ -372,9 +434,9 @@ class JournalScreen extends Component{
 
 					<View style={[maximizedblue.card, {paddingTop: 20, padding: 0, margin: 0, borderRadius: 0}]}>
 						<View style={[styles.rowwrap, {justifyContent: 'space-between', marginBottom: 20}]}>
-							<Icon name='arrow-left' type="material-community" color="white" size={21} containerStyle={{paddingHorizontal: 20}} onPress={() => this.chageDate('prev')}/>
+							<Icon name='arrow-left' type="material-community" color="white" size={21} containerStyle={{paddingHorizontal: 20}} onPress={() => this.changeDate('prev')}/>
 							<Text style={{fontFamily: 'Quicksand-Medium', textAlign: 'center', color: 'white'}}>{this.readableDate}</Text>
-							<Icon name='arrow-right' type="material-community" color="white" size={21} containerStyle={{paddingHorizontal: 20}} onPress={() => this.chageDate('next')}/>
+							<Icon name='arrow-right' type="material-community" color="white" size={21} containerStyle={{paddingHorizontal: 20}} onPress={() => this.changeDate('next')}/>
 						</View>
 						<Text style={styles.journalScore}>{pointsToday}</Text>
 						<BarChart

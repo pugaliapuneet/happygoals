@@ -40,6 +40,25 @@ class model {
 		);
 	}
 
+	getGoalsJournal() {
+		return this.dbgoals.findAsync({status: 1, $and: [{$not: {deleted: 1}}, {$not: {closed: 1}}]}).then(function(docs){
+			let goals = {};
+			docs.forEach(function(doc, i) {
+				let dailyRepetitionTarget = 0;
+				if(typeof doc.items != "undefined") {
+					doc.items.forEach((i, index2) => {
+						//accumulating required reps for the item
+						dailyRepetitionTarget += i.repetition/7;
+					})
+					//reps required in total for the goal
+					doc.totalDailyRepetitionTarget = dailyRepetitionTarget;
+				}
+				goals[doc.name] = doc;
+			});
+			return goals;
+		});
+	}
+
 	getGoalItems(goalName) {
 		let dbgoals = new Datastore({ filename: 'goals1', autoload: true });
 

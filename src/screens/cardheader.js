@@ -66,7 +66,7 @@ export default class cardheader extends Component{
 						<View style={{flex: 1}}>
 						{
 							(() => {
-								if(g.recentScore !== undefined)
+								if(g.recentScore > 0)
 								{
 									return(<View>
 										<Text style={{fontSize: 12, color: 'rgba(255,255,255,0.5)'}}>Recent Score</Text>

@@ -375,7 +375,7 @@ class JournalScreen extends Component{
 
 					//generate chart data
 					chartData.unshift(logs[date].length);
-					if (date == this.view_date) {
+					if (date == this.view_date && chartDataObj[date] !== undefined) {
 						// chartDataOfPoints.unshift({
 						// 	value: pointsForTheDay,
 						// 	svg: {
@@ -385,7 +385,7 @@ class JournalScreen extends Component{
 						chartDataObj[date].value = pointsForTheDay;
 						chartDataObj[date].svg = {fill: 'green'};
 					}
-					else {
+					else if(chartDataObj[date] !== undefined){
 						// chartDataOfPoints.unshift({
 						// 	value: pointsForTheDay,
 						// });

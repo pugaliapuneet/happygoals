@@ -322,6 +322,11 @@ class JournalScreen extends Component{
 				//breakdown full log into daily sections, and generate chart data
 				let sectionLogs = [];
 				let chartDataOfPoints = [];
+				let chartDataObj = {};
+				Array(30).fill().map((_,i) => {
+					let date = moment().subtract(i, 'days').format("DD/MM/YYYY");
+					chartDataObj[date] = {value:0};
+				});
 				Object.keys(logs).map((date) => {
 					let newlogs = [];
 					let pointsForTheDay = 0;
@@ -371,17 +376,20 @@ class JournalScreen extends Component{
 					//generate chart data
 					chartData.unshift(logs[date].length);
 					if (date == this.view_date) {
-						chartDataOfPoints.unshift({
-							value: pointsForTheDay,
-							svg: {
-								fill: 'green',
-							},
-						});
+						// chartDataOfPoints.unshift({
+						// 	value: pointsForTheDay,
+						// 	svg: {
+						// 		fill: 'green',
+						// 	},
+						// });
+						chartDataObj[date].value = pointsForTheDay;
+						chartDataObj[date].svg = {fill: 'green'};
 					}
 					else {
-						chartDataOfPoints.unshift({
-							value: pointsForTheDay,
-						});
+						// chartDataOfPoints.unshift({
+						// 	value: pointsForTheDay,
+						// });
+						chartDataObj[date].value = pointsForTheDay;
 					}
 					stackChartData.unshift({
 						date: date,
@@ -391,6 +399,7 @@ class JournalScreen extends Component{
 						night: night,
 					});
 				});
+				chartDataOfPoints = Object.values(chartDataObj).reverse();
 
 				if(chartData.length > 30){
 					chartData = chartData.slice(Math.max(chartData.length - 30, 1));

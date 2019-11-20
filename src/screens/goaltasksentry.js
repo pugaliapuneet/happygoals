@@ -98,6 +98,15 @@ export default class goaltaskentry extends Component{
 		}
 
 		g.stat = <Text style={g.cardStatus.score}>{g.bigScore}</Text>;
+
+		let optionalCardStyle = {};
+		let p = g.recentScore/g.bigScore*100;
+		if (p < 75) {
+			optionalCardStyle = {backgroundColor: "#c62828"};
+		}
+		else if (p > 125) {
+			optionalCardStyle = {backgroundColor: '#d4af37'};
+		}
 		// sortedItems = g.items.sort(function(obj1, obj2) {
 		// 	return obj2.points - obj1.points;
 		// })
@@ -118,7 +127,7 @@ export default class goaltaskentry extends Component{
 			editIconStyle = {display: 'none'};
 
 		return(
-			<View style={[g.cardStatus.card, styles.cardShadow]}>
+			<View style={[g.cardStatus.card, styles.cardShadow, optionalCardStyle]}>
 				<CardHeader g={g} onP={this.toggle}/>
 				{
 					this.state.expanded == 1 &&

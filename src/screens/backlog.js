@@ -41,6 +41,8 @@ export default class JournalScreen extends Component{
 			const goals = this.state.goals;
 			let backlogs = 0;
 			let backlogsClearedToday = 0;
+			let slowdowns = [];
+			let acceleration = [];
 
 			goals.map((goal, i) => {
 				goal.items.map((item, i2) => {
@@ -49,6 +51,15 @@ export default class JournalScreen extends Component{
 					if(item.lastActivity == 0 && item.secondLastActivity > 7)
 						backlogsClearedToday++
 				});
+				if (goal.mode == 'tasks') {
+					let p = goal.recentScore/goal.bigScore*100;
+					if (p < 75) {
+						slowdowns.push(<Text style={[styles.label, {color: 'white'}]}>{goal.name}</Text>);
+					}
+					if (p > 125) {
+						acceleration.push(<Text style={[styles.label, {color: 'white'}]}>{goal.name}</Text>);
+					}
+				}
 			});
 
 			// || item.lastActivity == -1
@@ -103,11 +114,19 @@ export default class JournalScreen extends Component{
 											x.push(<Text style={[styles.label, {color: '#FFD1F2'}]}>{goal.name}</Text>);
 											x.push(<View key="0" style={[styles.rowwrap, {marginBottom: 10}]}>{z}</View>);
 										}
-	    						});
+	    							});
 									return y.concat(x);
 								})()
 	    					}
 	    				</View>
+						<Text style={[styles.journalScore, {textAlign: 'left', paddingVertical: 20}]}>Slowdowns</Text>
+						<View>
+							{slowdowns}
+						</View>
+						<Text style={[styles.journalScore, {textAlign: 'left', paddingVertical: 20}]}>Acceleration</Text>
+						<View>
+							{acceleration}
+						</View>
 			    	</ScrollView>
 				</View>
 			)

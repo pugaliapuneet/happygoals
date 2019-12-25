@@ -196,6 +196,20 @@ class JournalScreen extends Component{
 		this.setState({refreshing: true});
 		let logs = this.state.logs;
 		let that = this;
+
+		//loop over logs to check 5star achievements
+		Object.keys(logs).forEach((date) => {
+			// console.log(date);
+			if(date == this.view_date) {
+				logs[date].forEach((log) => {
+					if(that.state.pointsTable[log.goalName][log.itemName] >= 4)
+					{
+						that.achievements['4/5 stars'].push(log.itemName);
+					}
+				})
+			}
+		});
+
 		model.getGoalsJournal().then((allGoals) => {
 			let goals = {};
 			Object.keys(logs).map((date) => {

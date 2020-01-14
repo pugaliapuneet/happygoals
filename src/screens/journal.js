@@ -82,7 +82,7 @@ class JournalScreen extends Component{
 				// console.log("GOALSSS", goal);
 
 				//2x
-				if(goal.mode == "tasks" && goal.totalPointsToday >= goal.bigScore*2) {
+				if(goal.mode == "tasks" && goal.bigScore > 0 && goal.totalPointsToday >= goal.bigScore*2) {
 					that.achievements['2x'].push(goal.name);
 				}
 				else {
@@ -246,7 +246,7 @@ class JournalScreen extends Component{
 						goal.bigScore = 100;
 				}
 				
-				if(goal.mode == "tasks" && goal.totalPointsToday >= goal.bigScore*2) {
+				if(goal.mode == "tasks" && goal.bigScore > 0 && goal.totalPointsToday >= goal.bigScore*2) {
 					that.achievements['2x'].push(goal.name);
 				}
 				else {

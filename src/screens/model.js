@@ -631,6 +631,13 @@ class model {
 		})
 	}
 
+	editLogDate(id, date) {
+		this.dblogs.update({_id: id}, {$set: {timestamp: date}}, {}, function(err, numRemoved){
+			console.log(err);
+			console.log(numRemoved);
+		})
+	}
+
 	getChartData(g) {
 		if(g.startDate)
 		{

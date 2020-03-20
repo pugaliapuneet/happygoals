@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, FlatList, TouchableOpacity,Image, ScrollView, RefreshControl, ToastAndroid, InteractionManager, SectionList, AsyncStorage} from 'react-native';
+import {Platform, StyleSheet, Text, View, FlatList, TouchableOpacity,Image, ScrollView, RefreshControl, ToastAndroid, InteractionManager, SectionList, AsyncStorage, TouchableHighlight} from 'react-native';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import {styles, listed, maximizedblue, maximizedgreen} from '../../styles.js';
 import { withNavigationFocus } from "react-navigation";
 // import Swipeout from 'react-native-swipeout';
 import LinearGradient from 'react-native-linear-gradient';
+import Modal from "react-native-modal";
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 import { AreaChart, Grid, BarChart, StackedBarChart, StackedAreaChart } from 'react-native-svg-charts';
 import * as shape from 'd3-shape';
@@ -165,15 +167,40 @@ class JournalScreen extends Component{
 
 			{
 				this.state.showDeleteOf == l._id &&
-				<TouchableOpacity
-					onLongPress={() => this.deleteLogById(l._id)}
-					onPress={() => ToastAndroid.show("LongPress to delete this entry", ToastAndroid.LONG)}
-				>
-					<Text style={{fontSize: 14, color: '#999'}}>Delete</Text>
-				</TouchableOpacity>
+				<View style={[styles.rowwrap, {justifyContent: 'space-between', backgroundColor: 'white', borderRadius: 5, paddingHorizontal: 10, width: 100}]}>
+					<TouchableOpacity onPress={() => this.showEditModal(l._id, l.timestamp)}>
+						<Text style={{fontSize: 14, color: 'orange'}}>Edit</Text>
+					</TouchableOpacity>
+					<TouchableOpacity
+						onLongPress={() => this.deleteLogById(l._id)}
+						onPress={() => ToastAndroid.show("LongPress to delete this entry", ToastAndroid.LONG)}
+					>
+						<Text style={{fontSize: 14, color: '#999'}}>Delete</Text>
+					</TouchableOpacity>
+				</View>
 			}
 		</View>)
 	};
+
+	showEditModal = (id, createdAt) => {
+		this.setState({
+			editModalVisible: true,
+			editingJournal: id,
+			editingJournalCreatedAt: moment.unix(createdAt).valueOf()
+		});
+	};
+
+	onChange = (event, date) => {
+		this.setState({ editingJournalCreatedAt: date.valueOf(), showDatePicker: false });
+	}
+
+	saveDate = () => {
+		model.editLogDate(this.state.editingJournal, moment(this.state.editingJournalCreatedAt).unix())
+		this.setState({editingJournal: null, editModalVisible: false});
+		ToastAndroid.show("Date changed!", ToastAndroid.LONG);
+		AsyncStorage.setItem("RefreshDashboard", "yes");
+		this.loadJournal();
+	}
 
 	_keyExtractor = (item, index) => item.itemName+item.createdAt;
 
@@ -509,6 +536,64 @@ class JournalScreen extends Component{
 					<View style1={{position: 'absolute', top: 52, left: 0, right: 0, bottom: 8}}>
 						{body}
 					</View>
+					<Modal
+						isVisible={this.state.editModalVisible}
+						onBackdropPress={() => this.setState({ editModalVisible: false, showDatePicker: false })}
+						onSwipe={() => this.setState({ editModalVisible: false, showDatePicker: false })}
+						swipeDirection="down"
+						hideModalContentWhileAnimating={true}
+						backdropColor='black' useNativeDriver={false}
+						backdropOpacity	= {0.85}
+					>
+						{/* <NewHabit closeModal={this._toggleNHModal} goalName={this.state.editingJournal} postSubmit={this.loadDashboard}/> */}
+						<View style={[styles.modal, {padding: 10}]}>
+							<LinearGradient colors={['#5D4037', '#795548']} style={{display: 'none', position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, borderRadius: 5}}></LinearGradient>
+							<View style={{padding: 10}}>
+								<Icon name='close' type="material-community"
+									size={21}
+									containerStyle={{position: 'absolute', top: 0, right: 0, padding: 10}}
+									color="rgba(0,0,0,0.5)"
+									onPress={() => this.setState({ editModalVisible: false, showDatePicker: false })}
+								/>
+
+								<TouchableHighlight style={{marginTop: 30}} underlayColor={'transparent'}
+									onPress={() => this.setState({ showDatePicker: true })}
+								>
+									<View style={{flexDirection: 'row', height: 40, alignItems: 'center', justifyContent: 'center' }}>
+										<View style={[{
+											flex: 1,
+											height: 40,
+											borderWidth: 1,
+											borderColor: '#aaa',
+											alignItems: 'center',
+											justifyContent: 'center'
+										}, {marginLeft: 0}]}>
+											<Text allowFontScaling={true} style={{color: '#c9c9c9'}}>
+												{moment(this.state.editingJournalCreatedAt).format("DD/MM/YYYY")}
+											</Text>
+										</View>
+									</View>
+								</TouchableHighlight>
+
+								<View style={{alignItems: 'center', marginTop: 50}}>
+									<TouchableHighlight onPress={this.saveDate}>
+										<Text style={styles.yellowButton}>Save</Text>
+									</TouchableHighlight>
+								</View>
+							</View>
+						</View>
+					</Modal>
+					{this.state.showDatePicker && (
+						<DateTimePicker
+							testID="dateTimePicker"
+							timeZoneOffsetInMinutes={0}
+							value={new Date(this.state.editingJournalCreatedAt)}
+							mode='date'
+							is24Hour={true}
+							display="default"
+							onChange={this.onChange}
+						/>
+					)}
 				</View>
 			)
 		}

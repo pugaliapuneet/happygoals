@@ -72,6 +72,7 @@ export default class goalhabitentry extends Component{
 	render() {
 		// console.log("rendering again")
 		const g = this.props.data;
+		g.statLabel = null;
 
 		if(this.state.snoozed && !this.state.expanded) {
 			g.cardStatus = snoozed;
@@ -106,7 +107,10 @@ export default class goalhabitentry extends Component{
 		{
 			// optionalCardStyle = {backgroundColor: "hsl(0, 60%, 50%)"}
 			optionalCardStyle = {backgroundColor: "#c62828"}
+			g.statLabel = <Text style={{fontFamily: 'Quicksand-Bold', color: 'white', fontSize: 12, lineHeight: 17, backgroundColor: "#c62828", paddingHorizontal: 8, borderRadius: 8, overflow: 'hidden'}}>Slowdown</Text>
 		}
+		// Override cards' color to a fixed color
+		optionalCardStyle = {backgroundColor: '#37474F'};
 
 		let colorLayerOpacity = {};
 		if(this.state.expanded)

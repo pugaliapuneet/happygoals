@@ -68,6 +68,7 @@ export default class goaltaskentry extends Component{
 
 		var moment = require('moment');
 		const g = this.props.data;
+		g.statLabel = null;
 
 		const data = g.chartData;
 		let chartData = [ 50, 10, 40, 95, 85, 91, 35, 53, 24, 50];
@@ -103,10 +104,14 @@ export default class goaltaskentry extends Component{
 		let p = g.recentScore/g.bigScore*100;
 		if (p < 75) {
 			optionalCardStyle = {backgroundColor: "#c62828"};
+			g.statLabel = <Text style={{fontFamily: 'Quicksand-Bold', color: 'white', fontSize: 12, lineHeight: 17, backgroundColor: "#c62828", paddingHorizontal: 8, borderRadius: 8, overflow: 'hidden'}}>Slowdown</Text>
 		}
 		else if (p > 125) {
 			optionalCardStyle = {backgroundColor: '#d4af37'};
+			g.statLabel = <Text style={{fontFamily: 'Quicksand-Bold', color: 'white', fontSize: 12, lineHeight: 17, backgroundColor: "green", paddingHorizontal: 8, borderRadius: 8, overflow: 'hidden'}}>Acceleration</Text>
 		}
+		// Override cards' color to a fixed color
+		optionalCardStyle = {backgroundColor: '#37474F'};
 		// sortedItems = g.items.sort(function(obj1, obj2) {
 		// 	return obj2.points - obj1.points;
 		// })

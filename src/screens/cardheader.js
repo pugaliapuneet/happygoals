@@ -41,7 +41,7 @@ export default class cardheader extends Component{
 						<View style={[styles.border, styles.rowwrap, {justifyContent: 'space-between'}]}>
 							{
 							typeof g.items != "undefined" &&
-							<View style={{}}>{g.stat}</View>
+							<View style={{}}>{g.stat}{g.statLabel}</View>
 							}
 							<View style={[styles.border, styles.goalTitle, {alignItems: 'flex-end'}]}>
 								<View style={[styles.rowwrap]}>
@@ -59,10 +59,10 @@ export default class cardheader extends Component{
 							<Text style={{fontSize: 12, color: 'rgba(255,255,255,0.5)'}}>Week</Text>
 							<Text style={{color: 'rgba(255, 255, 255, 1)'}}>{g.completed.weeks}</Text>
 						</View>
-						<View style={{flex: 1}}>
+						{/* <View style={{flex: 1}}>
 							<Text style={{fontSize: 12, color: 'rgba(255,255,255,0.5)'}}>Day</Text>
 							<Text style={{color: 'rgba(255, 255, 255, 1)'}}>{g.completed.days}</Text>
-						</View>
+						</View> */}
 						<View style={{flex: 1}}>
 						{
 							(() => {

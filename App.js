@@ -7,6 +7,7 @@
  * @lint-ignore-every XPLATJSCOPYRIGHT1
  */
 
+import 'react-native-gesture-handler';
 import React, {Component} from 'react';
 import {UIManager} from 'react-native';
 import {createAppContainer} from 'react-navigation';
@@ -73,20 +74,20 @@ const TabScreen = createMaterialTopTabNavigator(
         goals: {
             screen: DashboardStack,
             navigationOptions: {
-              tabBarIcon: <Icon name='view-dashboard-outline' type="material-community" color="white" size={21}/>
+              tabBarIcon: <Icon name='view-dashboard-outline' type="material-community" color="white" size={19}/>
             },
         },
         journal: {
             screen: JournalScreen,
             navigationOptions: {
-              tabBarIcon: <Icon name='calendar-check' type="material-community" color="white" size={21}/>
+              tabBarIcon: <Icon name='calendar-check' type="material-community" color="white" size={19}/>
             },
         },
 
         backlog: {
             screen: BacklogScreen,
             navigationOptions: {
-              tabBarIcon: <Icon name='calendar-clock' type="material-community" color="white" size={21}/>
+              tabBarIcon: <Icon name='calendar-clock' type="material-community" color="white" size={19}/>
             },
         },
 
@@ -122,7 +123,7 @@ const TabScreen = createMaterialTopTabNavigator(
       labelStyle: {
         textAlign: 'center',
         padding: 0, margin: 0,
-        fontSize: 10,
+        fontSize: 9,
       },
       indicatorStyle: {
           opacity: 0

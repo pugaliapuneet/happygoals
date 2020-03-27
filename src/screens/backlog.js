@@ -45,7 +45,7 @@ export default class JournalScreen extends Component{
 			let acceleration = [];
 
 			goals.map((goal, i) => {
-				goal.items.map((item, i2) => {
+				goal.items && goal.items.map((item, i2) => {
 					if(item.lastActivity > 7) // || item.lastActivity == -1
 						backlogs++
 					if(item.lastActivity == 0 && item.secondLastActivity > 7)
@@ -87,7 +87,7 @@ export default class JournalScreen extends Component{
 									goals.map((goal, i) => {
 
 										let z = [];
-										goal.items.map((item, i2) => {
+										goal.items && goal.items.map((item, i2) => {
 
 											//cleared today
 											if(item.lastActivity == 0 && item.secondLastActivity > 7) {

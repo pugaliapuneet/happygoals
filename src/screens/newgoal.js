@@ -35,7 +35,8 @@ export default class newGoal extends Component {
 	}
 
 	// buttons = ['2', '4', '8', '12', '24'];
-	buttons = ['Earn points', 'Follow a routine'];
+	// buttons = ['Earn points', 'Follow a routine'];
+	buttons = ['Earn points'];
 
 	updateIndex(selectedIndex) {
 		this.setState({selectedIndex});

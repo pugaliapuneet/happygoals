@@ -9,6 +9,7 @@
     "android": "react-native run-android"
   },
   "dependencies": {
+    "@react-native-community/datetimepicker": "^2.2.1",
     "moment": "^2.24.0",
     "react": "16.8.6",
     "react-native": "0.60.5",

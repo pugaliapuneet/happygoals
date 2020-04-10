@@ -72,7 +72,7 @@ class DashboardScreen extends Component{
 
 	loadDashboard() {
 		const that = this;
-
+		this.renderGoal = null; // Resset force rendering a goal card after update of item of goal
 		// console.log("getting active goals");
 		model.getActiveGoals().then(function(goals){
 			LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -126,10 +126,14 @@ class DashboardScreen extends Component{
 			editingGoal: editingGoal,
 		});
 	};
-	_toggleNTModal = (editingGoal) => {
+	_toggleNTModal = (editingGoal, editingTask, renderGoal) => {
+		if (renderGoal) {
+			this.renderGoal = renderGoal;
+		}
 		this.setState({
 			isNTModalVisible: !this.state.isNTModalVisible,
 			editingGoal: editingGoal,
+			editingTask: editingTask
 		});
 	};
 
@@ -256,7 +260,7 @@ class DashboardScreen extends Component{
 						}
 
 						if(goals[i].mode == "tasks")
-							return(<View>{header}<GoalTasksEntry navigation={this.props.navigation} key={goals[i].name} data={goals[i]} createLog={this.createLog} dashboardFunctions={dashboardFunctions}/></View>);
+							return(<View>{header}<GoalTasksEntry navigation={this.props.navigation} key={goals[i].name} data={goals[i]} createLog={this.createLog} dashboardFunctions={dashboardFunctions} forceRender={this.renderGoal}/></View>);
 						else
 							return(<View>{header}<GoalHabitsEntry navigation={this.props.navigation} key={goals[i].name} data={goals[i]} createLog={this.createLog} dashboardFunctions={dashboardFunctions}/></View>);
 					}}
@@ -313,7 +317,7 @@ class DashboardScreen extends Component{
 						backdropColor='black' useNativeDriver={false}
 						backdropOpacity	= {0.85}
 					>
-						<NewTask closeModal={this._toggleNTModal} goalName={this.state.editingGoal} postSubmit={this.loadDashboard}/>
+						<NewTask closeModal={this._toggleNTModal} goalName={this.state.editingGoal} taskName={this.state.editingTask} postSubmit={this.loadDashboard}/>
 					</Modal>
 				</View>
 			);

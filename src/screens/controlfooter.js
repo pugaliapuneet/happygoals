@@ -54,6 +54,12 @@ export default class ControlFooter extends Component{
 							<Text style={{color: 'white', marginLeft: 5, fontSize: 14}}>Add Task</Text>
 						</View>
 					</TouchableWithoutFeedback>
+					<TouchableWithoutFeedback onPress={() => this.props._toggleEditMode()}>
+						<View style={[styles.rowwrap, {paddingLeft: 25, paddingVertical: 16, opacity: 0.75}]}>
+							<Icon name='circle-edit-outline' type="material-community" color="white" size={21}/>
+							<Text style={{color: 'white', marginLeft: 5, fontSize: 14}}>Edit Task</Text>
+						</View>
+					</TouchableWithoutFeedback>
 				</View>
 				}
 				<TouchableWithoutFeedback onPress={() => {

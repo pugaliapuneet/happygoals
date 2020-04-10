@@ -59,6 +59,9 @@ export default class goaltaskentry extends Component{
 		if(typeof this.props.data.items != "undefined" && this.props.data.items.length != nextProps.data.items.length) {
 			return true;
 		}
+		if (this.props.forceRender && this.props.forceRender == this.props.data.name) {
+			return true;
+		}
 		return this.props.data.totalCount == nextProps.data.totalCount ? false : true;
 		// return true;
 	}
@@ -166,7 +169,7 @@ export default class goaltaskentry extends Component{
 											if(!that.state.editMode)
 							    				this.props.createLog(goalName, t.name, moment().unix());
 											else {
-												this.props.dashboardFunctions._toggleNTModal(goalName);
+												this.props.dashboardFunctions._toggleNTModal(goalName, taskName);
 											}
 										}}
 										onLongPress={() => {

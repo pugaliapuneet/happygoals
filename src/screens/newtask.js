@@ -8,6 +8,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import model from './model.js';
 
 var moment = require('moment');
+var Datastore = require('react-native-local-mongodb');
+var dbgoals = new Datastore({ filename: 'goals1', autoload: true });
 
 export default class newGoal extends Component {
 	constructor(props) {
@@ -19,6 +21,22 @@ export default class newGoal extends Component {
 
 		this.updateIndex = this.updateIndex.bind(this);
 		this.pushItem = this.pushItem.bind(this);
+		var that = this;
+		this.taskIndex = null;
+		if (props.taskName) {
+			const {goalName, taskName} = props;
+			dbgoals.findAsync(
+				{name: goalName, "items.name": taskName},
+			).then(function(docs) {
+				docs[0].items.forEach((task, index) => {
+					if (task.name == taskName) {
+						that.taskIndex = index;
+						that.setState({itemName: task.name})
+						that.setState({itemPoints: task.points});
+					}
+				});
+			})
+		}
 	}
 
 	buttons = ['2', '4', '8', '12', '24'];
@@ -66,6 +84,50 @@ export default class newGoal extends Component {
 		)
 	}
 
+	updateItem = () => {
+		const {goalName} = this.props;
+		const {itemName, itemPoints} = this.state;
+
+		if(typeof itemName == "undefined") {
+			ToastAndroid.show("Task Name not specified", ToastAndroid.LONG);
+			return;
+		}
+		if(typeof itemPoints == "undefined") {
+			ToastAndroid.show("Points not specified", ToastAndroid.LONG);
+			return;
+		}
+
+		var that = this;
+		dbgoals.update(
+			{name: goalName, "items.name": this.props.taskName, $not: {deleted: 1}},
+			{
+				$set: {
+					["items."+this.taskIndex+".name"]: itemName,
+					["items."+this.taskIndex+".points"]: itemPoints
+				}
+			},
+			{},
+			function(err, numReplaced){console.log(goalName, itemName, that.props.taskName)
+				let dblogs = new Datastore({ filename: 'logs2', autoload: true });
+				dblogs.update(
+					{"goalName": goalName, "itemName": that.props.taskName},
+					{
+						$set: {"itemName": itemName}
+					},
+					{multi:true},
+					function(error, numAffected, affectedDocuments, upsert){model.dumpCollection("dblogs");
+						AsyncStorage.setItem("RefreshDashboard", "yes");
+		
+						ToastAndroid.show(goalName+" edited successfully. "+numAffected+" log row upated.", ToastAndroid.LONG);
+						that.props.closeModal(undefined,undefined,goalName);
+						that.props.postSubmit();
+					}
+				)
+			}
+
+		)
+	}
+
 	setPoints = (selectedIndex) => { this.setState({itemPoints: selectedIndex+1});}
 
 	render() {
@@ -99,6 +161,7 @@ export default class newGoal extends Component {
 					<TextInput
 						style={[styles.bigTextInput, {marginBottom: 25, textAlign: 'center', marginTop: 20, color: '#FFECB3'}]}
 						placeholder="Task Name"
+						value={this.state.itemName}
 						onChangeText={(inputVal) => this.setState({itemName: inputVal})} />
 					<ButtonGroup
 						buttons={['1', '2', '3', '4', '5']}
@@ -114,9 +177,15 @@ export default class newGoal extends Component {
 						/>
 					<Text style={{color: 'black', opacity: 0.6, textAlign: 'center', padding: 10, marginBottom: 15}}>points</Text>
 					<View style={{alignItems: 'center', marginTop: 50}}>
+						{
+						(this.props.taskName &&
+						<TouchableHighlight onPress={this.updateItem}>
+							<Text style={styles.yellowButton}>Update</Text>
+						</TouchableHighlight>) ||
 						<TouchableHighlight onPress={this.pushItem}>
 							<Text style={styles.yellowButton}>Create</Text>
 						</TouchableHighlight>
+						}
 					</View>
 				</View>
 			</View>

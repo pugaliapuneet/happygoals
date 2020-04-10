@@ -113,6 +113,9 @@ export default class goaltaskentry extends Component{
 			optionalCardStyle = {backgroundColor: '#d4af37'};
 			g.statLabel = <Text style={{fontFamily: 'Quicksand-Bold', color: 'white', fontSize: 12, lineHeight: 17, backgroundColor: "green", paddingHorizontal: 8, borderRadius: 8, overflow: 'hidden'}}>Acceleration</Text>
 		}
+		if (g.totalPointsToday >= g.topScore) {
+			g.statLabel = <Text style={{fontFamily: 'Quicksand-Bold', color: 'white', fontSize: 12, lineHeight: 17, backgroundColor: "green", paddingHorizontal: 8, borderRadius: 8, overflow: 'hidden'}}>Top Day</Text>
+		}
 		// Override cards' color to a fixed color
 		optionalCardStyle = {backgroundColor: '#37474F'};
 		// sortedItems = g.items.sort(function(obj1, obj2) {

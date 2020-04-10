@@ -390,12 +390,12 @@ class model {
 	getLatestEntryOfToday(goalName, taskName) {
 		let that = this;
 
-		// let dblogs = new Datastore({ filename: 'logs2', autoload: true });
+		let todayStart = moment().startOf('day').unix();
 
 		return new Promise(function(resolve, reject) {
-			that.dblogs.find({goalName: goalName, itemName: taskName}).sort({ timestamp: -1 }).limit(1).exec(function(err, docs){
-				console.log("DOCDOC", docs[0]._id);
-				resolve(docs[0]._id);
+			that.dblogs.find({goalName: goalName, itemName: taskName, timestamp: {$gt: todayStart}, $not: {deleted:1}}).sort({ timestamp: -1 }).limit(1).exec(function(err, docs){
+				console.log("DOCDOC", docs[0]);
+				resolve(docs[0]? docs[0]._id : null);
 			});
 		});
 	}

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">happygoalsnew</string>
+    <string moduleConfig="true" name="CodePushDeploymentKey">luEHMsaFrwpL9HhMijufdh5NbvKfhfTofBKT2</string>
 </resources>

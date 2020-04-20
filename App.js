@@ -141,6 +141,6 @@ const App = createStackNavigator({
 //export default createAppContainer(GlobalDrawer);
 // let codePushOptions = { checkFrequency: codePush.CheckFrequency.ON_APP_RESUME };
 // export default codePush()`;
-// export default codePush(codePushOptions)(createAppContainer(App))
-export default codePush({ updateDialog: true, installMode: codePush.InstallMode.IMMEDIATE })(createAppContainer(App));
+export default codePush({ updateDialog: true, installMode: codePush.InstallMode.IMMEDIATE })(createAppContainer(App))
+// export default createAppContainer(App);
 // export default codePush(codePushOptions)(createAppContainer(DashboardStack))

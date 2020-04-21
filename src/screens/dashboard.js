@@ -15,6 +15,7 @@ import NewTask from './newtask';
 import LinearGradient from 'react-native-linear-gradient';
 
 import { Icon } from 'react-native-elements'
+import { TestIds, BannerAd, BannerAdSize} from '@react-native-firebase/admob';
 
 var moment = require('moment');
 
@@ -319,6 +320,16 @@ class DashboardScreen extends Component{
 					>
 						<NewTask closeModal={this._toggleNTModal} goalName={this.state.editingGoal} taskName={this.state.editingTask} postSubmit={this.loadDashboard}/>
 					</Modal>
+					<BannerAd
+						unitId={TestIds.BANNER}
+						size={BannerAdSize.SMART_BANNER}
+						requestOptions={{
+						requestNonPersonalizedAdsOnly: true,}}
+						onAdLoaded={() => {
+						console.log('Advert loaded');}}
+						onAdFailedToLoad={(error) => {
+						console.error('Advert failed to load: ', error);}}
+					/>
 				</View>
 			);
 		}

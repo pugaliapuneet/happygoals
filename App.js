@@ -13,7 +13,7 @@ import {UIManager} from 'react-native';
 import {createAppContainer} from 'react-navigation';
 import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
-import codePush from "react-native-code-push";
+// import codePush from "react-native-code-push";
 import { Icon } from 'react-native-elements'
 
 import JournalScreen from './src/screens/journal.js';
@@ -141,6 +141,6 @@ const App = createStackNavigator({
 //export default createAppContainer(GlobalDrawer);
 // let codePushOptions = { checkFrequency: codePush.CheckFrequency.ON_APP_RESUME };
 // export default codePush()`;
-export default codePush({ updateDialog: true, installMode: codePush.InstallMode.IMMEDIATE })(createAppContainer(App))
-// export default createAppContainer(App);
+// export default codePush({ updateDialog: true, installMode: codePush.InstallMode.IMMEDIATE })(createAppContainer(App))
+export default createAppContainer(App);
 // export default codePush(codePushOptions)(createAppContainer(DashboardStack))

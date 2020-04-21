@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "72876136869",
+    "firebase_url": "https://happygoals-2d464.firebaseio.com",
+    "project_id": "happygoals-2d464",
+    "storage_bucket": "happygoals-2d464.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:72876136869:android:8cc6b01e5c15cf8215304c",
+        "android_client_info": {
+          "package_name": "com.happygoals"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "72876136869-p5fm1eb2vu0bhdef3cev2itclqqkn2ph.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVLQKiqT1pPzaHmCJ-mKsGJ5TczNeoLJk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "72876136869-p5fm1eb2vu0bhdef3cev2itclqqkn2ph.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

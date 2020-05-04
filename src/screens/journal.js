@@ -71,7 +71,7 @@ class JournalScreen extends Component{
 				// console.log(date);
 				if(date == moment().format("DD/MM/YYYY")) {
 					logs[date].forEach((log) => {
-						if(array[1][log.goalName][log.itemName] >= 4)
+						if(array[1][log.goalName][log.itemName] >= 4 && !that.achievements['4/5 stars'].includes(log.itemName))
 						{
 							that.achievements['4/5 stars'].push(log.itemName);
 						}
@@ -229,7 +229,7 @@ class JournalScreen extends Component{
 			// console.log(date);
 			if(date == this.view_date) {
 				logs[date].forEach((log) => {
-					if(that.state.pointsTable[log.goalName][log.itemName] >= 4)
+					if(that.state.pointsTable[log.goalName][log.itemName] >= 4 && !that.achievements['4/5 stars'].includes(log.itemName))
 					{
 						that.achievements['4/5 stars'].push(log.itemName);
 					}
@@ -492,7 +492,7 @@ class JournalScreen extends Component{
 						<BarChart
 							style={{ width: '100%', height: 100, borderWidth: 0}}
 							data={ chartDataOfPoints }
-							contentInset={{ top: 0, bottom: 10, left: 0, right: 0}}
+							contentInset={{ top: 0, bottom: 0, left: 0, right: 0}}
 							curve={ shape.curveNatural }
 							svg={{ stroke: 'rgba(0,0,0,0)', fill1: "rgba(0,0,0,0.25)", fill2: "#006064", fill: "rgba(0,0,0,0.3)",strokeWidth: 2, strokeOpacity: 1 }}
 							yAccessor={({ item }) => item.value}>
@@ -500,13 +500,15 @@ class JournalScreen extends Component{
 					</View>
 
 					<ScrollView style={{position: 'absolute', top: 225, bottom: 0, left: 0, right: 0, marginBottom: 10}}>
-						<View style={{position: 'absolute', right: 20, top: 0, alignItems: 'flex-end'}}>
-							{x}
-						</View>
-						<View style={{marginLeft: 10}}>
-							<Text style={[styles.goal, {marginTop: 20, color: '#FFD1F2', marginLeft: 10}]}>{this.title}</Text>
-							<View style={{width: 40, borderBottomColor: '#FFD1F2', borderBottomWidth: 1, marginVertical: 10, marginLeft: 10}}></View>
-							{xyz}
+						<View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignContent: 'flex-end'}}>
+							<View style={{marginLeft: 10}}>
+								<Text style={[styles.goal, {marginTop: 20, color: '#FFD1F2', marginLeft: 10}]}>{this.title}</Text>
+								<View style={{width: 40, borderBottomColor: '#FFD1F2', borderBottomWidth: 1, marginVertical: 10, marginLeft: 10}}></View>
+								{xyz}
+							</View>
+							<View style={{/* position: 'absolute', right: 20, top: 0,*/ alignItems: 'flex-end', marginRight: 20}}>
+								{x}
+							</View>
 						</View>
 					</ScrollView>
 

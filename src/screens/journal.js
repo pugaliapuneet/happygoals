@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, FlatList, TouchableOpacity,Image, ScrollView, RefreshControl, ToastAndroid, InteractionManager, SectionList, AsyncStorage, TouchableHighlight} from 'react-native';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
-import {styles, listed, maximizedblue, maximizedgreen} from '../../styles.js';
+import {styles, listed, maximizedblue, maximizedgreen, primaryColor} from '../../styles.js';
 import { withNavigationFocus } from "react-navigation";
 // import Swipeout from 'react-native-swipeout';
 import LinearGradient from 'react-native-linear-gradient';
@@ -22,7 +22,7 @@ class JournalScreen extends Component{
 
 		this.state = {};
 
-		this.title = "0 Activities"
+		this.title = "0 Activities today"
 		this.view_date = moment().format("DD/MM/YYYY")
 		this.readableDate = "Today"
 	}
@@ -158,9 +158,9 @@ class JournalScreen extends Component{
 		//{l.goalName} -
 		return(<View key={l.itemName+l.createdAt} style={[styles.rowwrap, {justifyContent: 'space-between', paddingVertical: 3, paddingHorizontal: 10}]}>
 			<View style={styles.rowwrap}>
-				<View style={[hodStyle, {borderRadius: 100, marginVertical: 10, marginRight: 8, width: 7, height: 7}]}></View>
+				{/* <View style={[hodStyle, {borderRadius: 100, marginVertical: 10, marginRight: 8, width: 7, height: 7}]}></View> */}
 				<Text
-					style={[styles.label, {color: '#FFF'}]}
+					style={[styles.label, {color: '#484848'}]}
 					onPress={() => {this.setState({showDeleteOf: l._id})}}
 				>{l.itemName}</Text>
 			</View>
@@ -335,6 +335,9 @@ class JournalScreen extends Component{
 		else if (this.view_date == moment().subtract(1, 'days').format("DD/MM/YYYY")) {
 			this.readableDate = "Yesterday";
 		}
+		else if (this.view_date == moment().subtract(2, 'days').format("DD/MM/YYYY")) {
+			this.readableDate = "Day Before Yesterday";
+		}
 		else
 			this.readableDate = this.view_date;
 		ToastAndroid.show(this.view_date, ToastAndroid.LONG);
@@ -404,12 +407,12 @@ class JournalScreen extends Component{
 					// - "+logs[date].length+" activities
 					if(date == this.view_date) {
 						// sectionLogs.push({title: logs[date].length+" Activities", data: newlogs});
-						this.title = logs[date].length+" Activities";
+						this.title = logs[date].length+" Activities today";
 						this.logsArray = newlogs;
 						pointsToday = pointsForTheDay;
 					}
 					else if(!(this.view_date in logs)) {
-						this.title = "0 Activities";
+						this.title = "0 Activities today";
 						this.logsArray = [];
 						pointsToday = 0;
 					}
@@ -424,7 +427,7 @@ class JournalScreen extends Component{
 						// 	},
 						// });
 						chartDataObj[date].value = pointsForTheDay;
-						chartDataObj[date].svg = {fill: 'green'};
+						chartDataObj[date].svg = {fill: primaryColor};
 					}
 					else if(chartDataObj[date] !== undefined){
 						// chartDataOfPoints.unshift({
@@ -446,6 +449,8 @@ class JournalScreen extends Component{
 					chartData = chartData.slice(Math.max(chartData.length - 30, 1));
 					chartDataOfPoints = chartDataOfPoints.slice(Math.max(chartDataOfPoints.length - 30, 1));
 				}
+				let topScore = chartDataOfPoints.reduce(function(a, b){ return a.value > b.value ? a : b }).value;
+				let recentScore = this.state.goals.reduce(function(total, currentValue, index){ return total + (currentValue.recentScore || 0)}, 0);
 
 				stackChartData = stackChartData.slice(Math.max(stackChartData.length - 30, 1));
 
@@ -464,10 +469,10 @@ class JournalScreen extends Component{
 				let x = [];
 				Object.keys(that.achievements).forEach((a) => {
 					if(that.achievements[a].length) {
-						x.push(<Text style={[styles.goal, {marginTop: 20, color: '#FFD1F2'}]}>{a}</Text>);
-						x.push(<View style={{width: 40, borderBottomColor: '#FFD1F2', borderBottomWidth: 1, marginVertical: 10}}></View>);
+						x.push(<Text style={[styles.goal, {marginTop: 20, color: primaryColor}]}>{a}</Text>);
+						x.push(<View style={{width: 40, borderBottomColor: primaryColor, borderBottomWidth: 1, marginVertical: 10}}></View>);
 						that.achievements[a].forEach((item) => {
-							x.push(<Text style={[{color: '#FFF', marginBottom: 5}]}>{item}</Text>);
+							x.push(<Text style={[{color: '#484848', marginBottom: 5}]}>{item}</Text>);
 						})
 					}
 				})
@@ -480,13 +485,13 @@ class JournalScreen extends Component{
 					})
 
 				body = <View style={{height: '100%'}}>
-					<LinearGradient colors={['#37474F', '#78909C']} style={{position: 'absolute', left: 0, right: 0, top: 0, bottom: 0}}></LinearGradient>
+					{/* <LinearGradient colors={['#37474F', '#78909C']} style={{position: 'absolute', left: 0, right: 0, top: 0, bottom: 0}}></LinearGradient> */}
 
-					<View style={[maximizedblue.card, {paddingTop: 20, padding: 0, margin: 0, borderRadius: 0}]}>
+					<View style={[{paddingTop: 20, padding: 0, margin: 0, borderRadius: 0}]}>
 						<View style={[styles.rowwrap, {justifyContent: 'space-between', marginBottom: 20}]}>
-							<Icon name='arrow-left' type="material-community" color="white" size={21} containerStyle={{paddingHorizontal: 20}} onPress={() => this.changeDate('prev')}/>
-							<Text style={{fontFamily: 'Quicksand-Medium', textAlign: 'center', color: 'white'}}>{this.readableDate}</Text>
-							<Icon name='arrow-right' type="material-community" color="white" size={21} containerStyle={{paddingHorizontal: 20}} onPress={() => this.changeDate('next')}/>
+							<Icon name='arrow-left' type="material-community" color={primaryColor} size={21} containerStyle={{paddingHorizontal: 20}} onPress={() => this.changeDate('prev')}/>
+							<Text style={{fontFamily: 'Quicksand-Medium', textAlign: 'center', color: primaryColor}}>{this.readableDate}</Text>
+							<Icon name='arrow-right' type="material-community" color={primaryColor} size={21} containerStyle={{paddingHorizontal: 20}} onPress={() => this.changeDate('next')}/>
 						</View>
 						<Text style={styles.journalScore}>{pointsToday}</Text>
 						<BarChart
@@ -494,16 +499,22 @@ class JournalScreen extends Component{
 							data={ chartDataOfPoints }
 							contentInset={{ top: 0, bottom: 0, left: 0, right: 0}}
 							curve={ shape.curveNatural }
-							svg={{ stroke: 'rgba(0,0,0,0)', fill1: "rgba(0,0,0,0.25)", fill2: "#006064", fill: "rgba(0,0,0,0.3)",strokeWidth: 2, strokeOpacity: 1 }}
+							svg={{ stroke: 'rgba(0,0,0,0)', fill: "#C7EBCA", strokeWidth: 2, strokeOpacity: 1 }}
 							yAccessor={({ item }) => item.value}>
 						</BarChart>
+						<View style={{flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 20}}>
+							<Text style={{opacity: .3, fontSize: 14}}>Top: {topScore}</Text>
+							<Text style={{opacity: .3, fontSize: 14}}>Avg: {topScore}</Text>
+							<Text style={{opacity: .3, fontSize: 14}}>Recent: {recentScore}</Text>
+							<Text style={{opacity: .3, fontSize: 14}}>Week: 0</Text>
+						</View>
 					</View>
 
-					<ScrollView style={{position: 'absolute', top: 225, bottom: 0, left: 0, right: 0, marginBottom: 10}}>
+					<ScrollView style={{position: 'absolute', top: 250, bottom: 0, left: 0, right: 0, marginBottom: 10}}>
 						<View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignContent: 'flex-end'}}>
 							<View style={{marginLeft: 10}}>
-								<Text style={[styles.goal, {marginTop: 20, color: '#FFD1F2', marginLeft: 10}]}>{this.title}</Text>
-								<View style={{width: 40, borderBottomColor: '#FFD1F2', borderBottomWidth: 1, marginVertical: 10, marginLeft: 10}}></View>
+								<Text style={[styles.goal, {marginTop: 20, color: primaryColor, marginLeft: 10}]}>{this.title}</Text>
+								<View style={{width: 40, borderBottomColor: primaryColor, borderBottomWidth: 1, marginVertical: 10, marginLeft: 10}}></View>
 								{xyz}
 							</View>
 							<View style={{/* position: 'absolute', right: 20, top: 0,*/ alignItems: 'flex-end', marginRight: 20}}>
@@ -534,7 +545,7 @@ class JournalScreen extends Component{
 			// </TouchableOpacity>
 			return (
 				<View style={[styles.body, {position: 'relative', height: '100%'}]}>
-					<LinearGradient colors={['#FFCC80', '#FFE0B2']} style={{position: 'absolute', left: 0, right: 0, top: 0, bottom: 0}}></LinearGradient>
+					{/* <LinearGradient colors={['#FFCC80', '#FFE0B2']} style={{position: 'absolute', left: 0, right: 0, top: 0, bottom: 0}}></LinearGradient> */}
 					<View style1={{position: 'absolute', top: 52, left: 0, right: 0, bottom: 8}}>
 						{body}
 					</View>
@@ -549,7 +560,7 @@ class JournalScreen extends Component{
 					>
 						{/* <NewHabit closeModal={this._toggleNHModal} goalName={this.state.editingJournal} postSubmit={this.loadDashboard}/> */}
 						<View style={[styles.modal, {padding: 10}]}>
-							<LinearGradient colors={['#5D4037', '#795548']} style={{display: 'none', position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, borderRadius: 5}}></LinearGradient>
+							{/* <LinearGradient colors={['#5D4037', '#795548']} style={{display: 'none', position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, borderRadius: 5}}></LinearGradient> */}
 							<View style={{padding: 10}}>
 								<Icon name='close' type="material-community"
 									size={21}

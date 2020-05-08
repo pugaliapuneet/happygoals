@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
       elevation: 5
     },
 
-  journalScore: {fontSize: 50, lineHeight: 60, color: 'white', fontFamily: 'Nunito-ExtraLight', textAlign: 'center'},
+  journalScore: {fontSize: 50, lineHeight: 60, color: primaryColor, fontFamily: 'Nunito-ExtraLight', textAlign: 'center'},
 });
 
 

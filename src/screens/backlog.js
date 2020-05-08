@@ -67,8 +67,8 @@ export default class JournalScreen extends Component{
 			// 	<Image source={{uri: "https://static.thenounproject.com/png/1166840-200.png"}} style={{width: 32, height: 32, marginLeft: 10, marginTop: 10}} />
 			// </TouchableOpacity>
 			return (
-				<View style={{height: '100%'}}>
-					<LinearGradient colors={['#37474F', '#78909C']} style={{position: 'absolute', left: 0, right: 0, top: 0, bottom: 0}}></LinearGradient>
+				<View style={[styles.body, {height: '100%'}]}>
+					{/* <LinearGradient colors={['#37474F', '#78909C']} style={{position: 'absolute', left: 0, right: 0, top: 0, bottom: 0}}></LinearGradient> */}
 					<ScrollView style={[{}]}
 						contentContainerStyle={{padding: 15}}
 		    			showsVerticalScrollIndicator={false}

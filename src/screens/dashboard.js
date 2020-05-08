@@ -11,11 +11,13 @@ import Modal from "react-native-modal";
 import NewGoal from './newgoal';
 import NewHabit from './newhabit';
 import NewTask from './newtask';
+import CardHeader from './cardheader.js';
 
 import LinearGradient from 'react-native-linear-gradient';
 
 import { Icon } from 'react-native-elements'
 import { TestIds, BannerAd, BannerAdSize} from '@react-native-firebase/admob';
+import { Svg, Path } from 'react-native-svg';
 
 var moment = require('moment');
 
@@ -137,6 +139,15 @@ class DashboardScreen extends Component{
 			editingTask: editingTask
 		});
 	};
+	_toggleGCModal = (viewGoal) => {
+		this.setState({
+			isGCModalVisible: !this.state.isGCModalVisible,
+			viewGoal: viewGoal
+		});
+	}
+	setModalGoalData = (goalData) => {
+		this.setState({viewGoal: goalData});
+	}
 
 	deleteGoal = (id, name) => {
 		const goalId = id;
@@ -180,6 +191,16 @@ class DashboardScreen extends Component{
 		);
 	}
 
+	renderLogo() {
+		return (
+			<Svg width="41" height="41" viewBox="0 0 41 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<Path d="M18.5118 4.98804C19.7494 4.27351 21.2742 4.27351 22.5118 4.98804L32.9456 11.012C34.1832 11.7265 34.9456 13.047 34.9456 14.4761V26.5239C34.9456 27.953 34.1832 29.2735 32.9456 29.988L22.5118 36.012C21.2742 36.7265 19.7494 36.7265 18.5118 36.012L8.07806 29.988C6.84046 29.2735 6.07806 27.953 6.07806 26.5239V14.4761C6.07806 13.047 6.84046 11.7265 8.07806 11.012L18.5118 4.98804Z" fill="#3DA848"/>
+				<Path d="M18.0118 3.09808C19.5588 2.20491 21.4648 2.20491 23.0118 3.09808L34.3324 9.63398C35.8794 10.5271 36.8324 12.1778 36.8324 13.9641V27.0359C36.8324 28.8222 35.8794 30.4729 34.3324 31.366L23.0118 37.9019C21.4648 38.7951 19.5588 38.7951 18.0118 37.9019L6.69133 31.366C5.14433 30.4729 4.19133 28.8222 4.19133 27.0359V13.9641C4.19133 12.1778 5.14433 10.5271 6.69133 9.63397L18.0118 3.09808Z" stroke="#3DA848" stroke-width="2"/>
+				<Path d="M21.8102 19.213L26.6516 17.9189L21.3933 30.5399L19.4474 23.2955L14.606 24.5896L19.8622 11.9605L21.8102 19.213Z" fill="white"/>
+			</Svg>
+		);
+	}
+
 	render() {
 		if(this.isLoaded)
 		{
@@ -210,6 +231,18 @@ class DashboardScreen extends Component{
 				}
 			});
 
+			let dashboardFunctions = {
+				_toggleNHModal: this._toggleNHModal,
+				_toggleEHModal: this._toggleEHModal,
+				_toggleNTModal: this._toggleNTModal,
+				_toggleGCModal: this._toggleGCModal,
+				createLog: this.createLog,
+				deleteGoal: this.deleteGoal,
+				closeGoal: this.closeGoal,
+				loadDashboard: this.loadDashboard,
+				setModalGoalData: this.setModalGoalData
+			}
+
 			let body;
 
 			headerContent = <View>
@@ -235,10 +268,24 @@ class DashboardScreen extends Component{
 				</View>
 			</View>;
 
+			headerContent = <View style={{margin: 10}}>
+				<View style={{marginTop: 16, flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
+					<View>{this.renderLogo()}</View>
+					<View>
+					<Icon name='plus-circle-outline' type="material-community" color="green" size={40} iconStyle={{}} onPress={this._toggleNGModal}/>
+					</View>
+				</View>
+				<View style={{marginVertical:10}}>
+					<Text style={{fontSize:30, fontFamily: 'Quicksand-Regular'}}>{this.state.totalPointsToday} points today</Text>
+				</View>
+			</View>;
+
 			if(counterArray.length) {
 				this.headerDisplayed = false; // console.log("Falsifying header");
 				body = <FlatList
 					style={{}}
+					contentContainerStyle={{marginHorizontal: 10}}
+					ListHeaderComponent = {headerContent}
 					data={counterArray}
 					keyExtractor={(item, index) => index.toString()}
 					renderItem={({item}) => {
@@ -250,21 +297,13 @@ class DashboardScreen extends Component{
 							this.headerDisplayed = true;
 						}
 
-						let dashboardFunctions = {
-							_toggleNHModal: this._toggleNHModal,
-							_toggleEHModal: this._toggleEHModal,
-							_toggleNTModal: this._toggleNTModal,
-							createLog: this.createLog,
-							deleteGoal: this.deleteGoal,
-							closeGoal: this.closeGoal,
-							loadDashboard: this.loadDashboard,
-						}
 
 						if(goals[i].mode == "tasks")
-							return(<View>{header}<GoalTasksEntry navigation={this.props.navigation} key={goals[i].name} data={goals[i]} createLog={this.createLog} dashboardFunctions={dashboardFunctions} forceRender={this.renderGoal}/></View>);
+							return(<View style={{flex: 1, flexDirection: 'column', margin: 1}}><GoalTasksEntry navigation={this.props.navigation} key={goals[i].name} data={goals[i]} createLog={this.createLog} dashboardFunctions={dashboardFunctions} forceRender={this.renderGoal}/></View>);
 						else
-							return(<View>{header}<GoalHabitsEntry navigation={this.props.navigation} key={goals[i].name} data={goals[i]} createLog={this.createLog} dashboardFunctions={dashboardFunctions}/></View>);
+							return(<View style={{flex: 1, flexDirection: 'column', margin: 1}}><GoalHabitsEntry navigation={this.props.navigation} key={goals[i].name} data={goals[i]} createLog={this.createLog} dashboardFunctions={dashboardFunctions}/></View>);
 					}}
+					numColumns={2}
 				/>
 			}
 			else {
@@ -279,7 +318,7 @@ class DashboardScreen extends Component{
 
 			return (
 				<View style={[styles.body, {position: 'relative', height: '100%'}]}>
-					<LinearGradient colors={['#37474F', '#78909C']} style={{position: 'absolute', left: 0, right: 0, top: 0, bottom: 0}}></LinearGradient>
+					{/* <LinearGradient colors={['#37474F', '#78909C']} style={{position: 'absolute', left: 0, right: 0, top: 0, bottom: 0}}></LinearGradient> */}
 
 					{body}
 
@@ -316,19 +355,28 @@ class DashboardScreen extends Component{
 						swipeDirection="down"
 						hideModalContentWhileAnimating={true}
 						backdropColor='black' useNativeDriver={false}
-						backdropOpacity	= {0.85}
+						backdropOpacity	= {0}
 					>
 						<NewTask closeModal={this._toggleNTModal} goalName={this.state.editingGoal} taskName={this.state.editingTask} postSubmit={this.loadDashboard}/>
 					</Modal>
+					<Modal
+						isVisible={this.state.isGCModalVisible}
+						onBackdropPress={() => this.setState({ isGCModalVisible: false })}
+						onSwipe={() => this.setState({ isGCModalVisible: false })}
+						swipeDirection="down"
+						hideModalContentWhileAnimating={true}
+						backdropColor='black' useNativeDriver={false}
+						backdropOpacity	= {0.85}
+					>
+						<CardHeader g={this.state.viewGoal} onP={null} dashboardFunctions={dashboardFunctions} />
+					</Modal>
+
 					<BannerAd
 						unitId={TestIds.BANNER}
-						size={BannerAdSize.SMART_BANNER}
-						requestOptions={{
-						requestNonPersonalizedAdsOnly: true,}}
-						onAdLoaded={() => {
-						console.log('Advert loaded');}}
-						onAdFailedToLoad={(error) => {
-						console.error('Advert failed to load: ', error);}}
+						size={BannerAdSize.FULL_BANNER}
+						requestOptions={{requestNonPersonalizedAdsOnly: true,}}
+						onAdLoaded={() => {console.log('Advert loaded');}}
+						onAdFailedToLoad={(error) => {console.error('Advert failed to load: ', error);}}
 					/>
 				</View>
 			);

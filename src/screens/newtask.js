@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, FlatList, TouchableOpacity, Image, CheckBox, ScrollView, TextInput, Picker, Button, Alert, ToastAndroid, AsyncStorage, TouchableHighlight} from 'react-native';
-import { ButtonGroup, Icon } from 'react-native-elements'
-import {styles} from '../../styles.js';
+import { ButtonGroup, Icon, Divider } from 'react-native-elements'
+import {styles, primaryColor} from '../../styles.js';
 
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -148,47 +148,92 @@ export default class newGoal extends Component {
 		// 	selectedValue={this.state.itemPoints}>
 		// 	{pointPicker}
 		// </Picker>
-		return(
-			<View style={[styles.modal, {padding: 10}]}>
-				<LinearGradient colors={['#5D4037', '#795548']} style={{display: 'none', position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, borderRadius: 5}}></LinearGradient>
-				<View style={{padding: 10}}>
+		return (
+			<View style={[styles.modal]}>
+				<View style={{padding: 25}}>
 					<Icon name='close' type="material-community"
 						size={21}
-						containerStyle={{position: 'absolute', top: 0, right: 0, padding: 10}}
+						containerStyle={{position: 'absolute', top: 0, right: 0, padding: 25, zIndex: 1}}
 						color="rgba(0,0,0,0.5)"
 						onPress={() => that.props.closeModal()}
 					/>
+					<Text style={{fontSize: 18, textTransform: 'uppercase'}}>{this.props.goalName}</Text>
+					<Text style={{fontSize: 18, opacity: .3}}>Add new activity</Text>
+				</View>
+				<Divider style={{ backgroundColor: '#E3E3E3', height: 1.5 }} />
+				<View style={{padding: 25}}>
+					<Text style={[styles.modalLabel]}>Activity Name</Text>
 					<TextInput
-						style={[styles.bigTextInput, {marginBottom: 25, textAlign: 'center', marginTop: 20, color: '#FFECB3'}]}
-						placeholder="Task Name"
+						style={[styles.bigTextInput, {padding: 10, marginTop: 20, height: 42}]}
+						placeholder="Activity Name"
+						onChangeText={(inputVal) => this.setState({itemName: inputVal})}
 						value={this.state.itemName}
-						onChangeText={(inputVal) => this.setState({itemName: inputVal})} />
+					/>
+					<Text  style={[styles.modalLabel]}>How many points will the activity contribute towards the goal?</Text>
 					<ButtonGroup
 						buttons={['1', '2', '3', '4', '5']}
-						buttonStyle={{margin: 0, borderWidth: 0, borderColor: '#ccc', borderRadius: 4, padding: 0}}
-						containerStyle={{borderWidth: 0, backgroundColor: 'transparent'}}
-						textStyle={{fontSize: 25, fontFamily: 'Quicksand-Medium', color: 'rgba(255,255,255,0.5)'}}
+						buttonStyle={{marginHorizontal: 10, borderWidth: 1, borderColor: '#ccc', borderRadius: 50, padding: 0}}
+						containerStyle={{borderWidth: 0, backgroundColor: 'transparent', marginTop: 20, marginLeft: -5, marginRight: -5}}
+						textStyle={{fontSize: 18, fontFamily: 'Quicksand-Medium', paddingBottom: 5 /*color: 'rgba(255,255,255,0.5)'*/}}
 						innerBorderStyle={{width: 0, color: 'orange'}}
-						selectedTextStyle={{color: 'orange'}}
-						selectedButtonStyle={{backgroundColor: 'transparent'}}
+						selectedTextStyle={{color: primaryColor}}
+						selectedButtonStyle={{borderColor: primaryColor, backgroundColor: 'transparent'}}
 
 						onPress={this.setPoints}
 						selectedIndex={this.state.itemPoints-1}
-						/>
-					<Text style={{color: 'black', opacity: 0.6, textAlign: 'center', padding: 10, marginBottom: 15}}>points</Text>
-					<View style={{alignItems: 'center', marginTop: 50}}>
-						{
-						(this.props.taskName &&
-						<TouchableHighlight onPress={this.updateItem}>
-							<Text style={styles.yellowButton}>Update</Text>
-						</TouchableHighlight>) ||
-						<TouchableHighlight onPress={this.pushItem}>
-							<Text style={styles.yellowButton}>Create</Text>
-						</TouchableHighlight>
-						}
+					/>
+					<View style={{marginLeft: 5, flexDirection: 'row', justifyContent: 'space-between'}}>
+						<Text style={{fontSize: 13, width: 45, textAlign: 'center', color: '#BCBCBC'}}>Low Effort</Text>
+						<Text style={{fontSize: 13, width: 45, textAlign: 'center', color: '#BCBCBC'}}>High Value</Text>
 					</View>
+					<Icon name="check-circle-outline" type="material-community"
+						size={33}
+						containerStyle={{marginTop: 20}}
+						color={primaryColor}
+						onPress={()=>{(this.props.taskName && this.updateItem()) || this.pushItem()}}
+					/>
 				</View>
 			</View>
+			// <View style={[styles.modal, {padding: 10}]}>
+			// 	<LinearGradient colors={['#5D4037', '#795548']} style={{display: 'none', position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, borderRadius: 5}}></LinearGradient>
+			// 	<View style={{padding: 10}}>
+			// 		<Icon name='close' type="material-community"
+			// 			size={21}
+			// 			containerStyle={{position: 'absolute', top: 0, right: 0, padding: 10}}
+			// 			color="rgba(0,0,0,0.5)"
+			// 			onPress={() => that.props.closeModal()}
+			// 		/>
+			// 		<TextInput
+			// 			style={[styles.bigTextInput, {marginBottom: 25, textAlign: 'center', marginTop: 20, color: '#FFECB3'}]}
+			// 			placeholder="Task Name"
+			// 			value={this.state.itemName}
+			// 			onChangeText={(inputVal) => this.setState({itemName: inputVal})} />
+			// 		<ButtonGroup
+			// 			buttons={['1', '2', '3', '4', '5']}
+			// 			buttonStyle={{margin: 0, borderWidth: 0, borderColor: '#ccc', borderRadius: 4, padding: 0}}
+			// 			containerStyle={{borderWidth: 0, backgroundColor: 'transparent'}}
+			// 			textStyle={{fontSize: 25, fontFamily: 'Quicksand-Medium', color: 'rgba(255,255,255,0.5)'}}
+			// 			innerBorderStyle={{width: 0, color: 'orange'}}
+			// 			selectedTextStyle={{color: 'orange'}}
+			// 			selectedButtonStyle={{backgroundColor: 'transparent'}}
+
+			// 			onPress={this.setPoints}
+			// 			selectedIndex={this.state.itemPoints-1}
+			// 			/>
+			// 		<Text style={{color: 'black', opacity: 0.6, textAlign: 'center', padding: 10, marginBottom: 15}}>points</Text>
+			// 		<View style={{alignItems: 'center', marginTop: 50}}>
+			// 			{
+			// 			(this.props.taskName &&
+			// 			<TouchableHighlight onPress={this.updateItem}>
+			// 				<Text style={styles.yellowButton}>Update</Text>
+			// 			</TouchableHighlight>) ||
+			// 			<TouchableHighlight onPress={this.pushItem}>
+			// 				<Text style={styles.yellowButton}>Create</Text>
+			// 			</TouchableHighlight>
+			// 			}
+			// 		</View>
+			// 	</View>
+			// </View>
 		)
 	}
 }

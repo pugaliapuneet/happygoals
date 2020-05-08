@@ -9,11 +9,14 @@ import { Icon } from 'react-native-elements'
 
 import model from './model.js';
 const dbgoals = model.dbgoals;
+var moment = require('moment');
 
+import { Defs, LinearGradient, Stop } from 'react-native-svg'
 import { AreaChart, Grid } from 'react-native-svg-charts'
 import * as shape from 'd3-shape'
 
 export default class goaltaskentry extends Component{
+	viewGoal = null;
 	constructor(props) {
 		super(props);
 
@@ -101,23 +104,28 @@ export default class goaltaskentry extends Component{
 				g.cardStatus = listed;
 		}
 
-		g.stat = <Text style={g.cardStatus.score}>{g.bigScore}</Text>;
+		g.stat = <Text style={[styles.stat, {lineHeight: 48}]}>{g.bigScore}</Text>;
 
 		let optionalCardStyle = {};
 		let p = g.recentScore/g.bigScore*100;
+		
 		if (p < 75) {
-			optionalCardStyle = {backgroundColor: "#c62828"};
-			g.statLabel = <Text style={{fontFamily: 'Quicksand-Bold', color: 'white', fontSize: 12, lineHeight: 17, backgroundColor: "#c62828", paddingHorizontal: 8, borderRadius: 8, overflow: 'hidden'}}>Slowdown</Text>
+			// optionalCardStyle = {borderColor: '#c62828', borderWidth: 2};
+			// g.statLegend = <Text style={{position: 'absolute', bottom:-11, alignSelf:'center', textAlign:'center', fontFamily: 'Quicksand-Regular', color: 'white', fontSize: 12, lineHeight: 17, backgroundColor: '#c62828', paddingBottom: 3, paddingHorizontal: 8, borderRadius: 10, overflow: 'hidden'}}>Slowdown</Text>
+			g.statLabel = <Text style={{fontFamily: 'Quicksand-Regular', color: 'white', fontSize: 12, lineHeight: 17, backgroundColor: "#c62828", paddingHorizontal: 8, paddingBottom: 2, borderRadius: 5, overflow: 'hidden'}}>Slowdown</Text>
 		}
+		/*
 		else if (p > 125) {
-			optionalCardStyle = {backgroundColor: '#d4af37'};
-			g.statLabel = <Text style={{fontFamily: 'Quicksand-Bold', color: 'white', fontSize: 12, lineHeight: 17, backgroundColor: "green", paddingHorizontal: 8, borderRadius: 8, overflow: 'hidden'}}>Acceleration</Text>
+			optionalCardStyle = {borderColor: '#3DA848', borderWidth: 2};
+			g.statLegend = <Text style={{position: 'absolute', bottom:-11, alignSelf:'center', textAlign:'center', fontFamily: 'Quicksand-Regular', color: 'white', fontSize: 12, lineHeight: 17, backgroundColor: 'green', paddingBottom: 3, paddingHorizontal: 8, borderRadius: 10, overflow: 'hidden'}}>Acceleration</Text>
 		}
 		if (g.totalPointsToday >= g.topScore) {
-			g.statLabel = <Text style={{fontFamily: 'Quicksand-Bold', color: 'white', fontSize: 12, lineHeight: 17, backgroundColor: "green", paddingHorizontal: 8, borderRadius: 8, overflow: 'hidden'}}>Top Day</Text>
+			optionalCardStyle = { borderColor: '#3DA848', borderWidth: 2};
+			g.statLegend = <Text style={{position: 'absolute', bottom:-11, alignSelf:'center', textAlign:'center', fontFamily: 'Quicksand-Regular', color: 'white', fontSize: 12, lineHeight: 17, backgroundColor: 'green', paddingBottom: 3, paddingHorizontal: 8, borderRadius: 10, overflow: 'hidden'}}>Top Day</Text>
 		}
+		*/
 		// Override cards' color to a fixed color
-		optionalCardStyle = {backgroundColor: '#37474F'};
+		// optionalCardStyle = {backgroundColor: '#37474F'};
 		// sortedItems = g.items.sort(function(obj1, obj2) {
 		// 	return obj2.points - obj1.points;
 		// })
@@ -130,14 +138,54 @@ export default class goaltaskentry extends Component{
 		// 	svg={{ fill: 'rgba(0,0,0,0.05)', stroke: "rgba(0,0,0,0.1)", strokeWidth: 1, strokeOpacity: 1 }}>
 		//
 		// </AreaChart>
+		
+		// Set goal data at re render
+		if (g.name == this.viewGoal)
+			this.props.dashboardFunctions.setModalGoalData(g);
 
 		let editIconStyle;
 		if(that.state.editMode)
 			editIconStyle = {};
 		else
 			editIconStyle = {display: 'none'};
-
+		
+		const Gradient = ({ index }) => (
+            <Defs key={index}>
+                <LinearGradient id={'gradient'} x1={'0%'} y1={'0%'} x2={'0%'} y2={'100%'}>
+                    <Stop offset={'0%'} stopColor={'#8DBF88'} stopOpacity={0.9}/>
+                    <Stop offset={'100%'} stopColor={'#FFF'} stopOpacity={0.1}/>
+                </LinearGradient>
+            </Defs>
+        )
 		return(
+			<TouchableWithoutFeedback onPress={() => { this.viewGoal = g.name; this.props.dashboardFunctions._toggleGCModal(g); }}>
+				<View style={[{margin: 10, backgroundColor: '#FFF', borderRadius: 10}, /*g.cardStatus.card,*/ styles.cardShadow, optionalCardStyle]}>
+					{g.statLegend}
+					<View style={{display: 'flex', flexDirection: 'column', padding: 15, paddingBottom: 70}} >
+						<View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 15}}>
+							<Text style={{textAlignVertical: 'top'}}>{g.name}</Text>
+							<View style={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'}}>
+								<Icon name='arrow-up' type="material-community" color="green" size={19}/>
+								<Icon name='arrow-up' type="material-community" color="green" size={19}/>
+							</View>
+						</View>
+						<Text style={[styles.stat]}>{g.bigScore}</Text>
+					</View>
+					<View style={{position:'absolute', bottom:0, left:0, right:0}}>
+						<AreaChart
+							style={{ height: 100 }}
+							data={chartData}
+							contentInset={{ top: 30, bottom: 5 }}
+							curve={shape.curveNatural}
+							svg={{ fill: 'url(#gradient)' }}
+						>
+							<Gradient/>
+						</AreaChart>
+					</View>
+					{/* <CardHeader g={g} onP={this.toggle}/> */}
+				</View>
+			</TouchableWithoutFeedback>
+			/*
 			<View style={[g.cardStatus.card, styles.cardShadow, optionalCardStyle]}>
 				<CardHeader g={g} onP={this.toggle}/>
 				{
@@ -188,7 +236,8 @@ export default class goaltaskentry extends Component{
 						    		>
 						    			<View style={[styles.rowwrap, {marginRight: 15, marginBottom: 10, alignItems: 'center'}]}>
 											<Icon name='circle-edit-outline' type="material-community" color="white" size={18} iconStyle={[editIconStyle, {marginRight: 5, lineHeight: 26}]}/>
-							    			<Text style={[styles.border, {fontFamily: 'Quicksand-Bold', fontSize: 15, color: '#fff', marginRight: 10}, styles.optional]}>{taskName}</Text>
+							    			<Text style={[styles.border, {fontFamily: 'Quicksand-Bold', fontSize: 15, color: '#fff', marginRight: 0}, styles.optional]}>{taskName}</Text>
+											<Icon name='medal' type="material-community" color="white" size={19}/>
 							    			{counter}
 							    		</View>
 						    		</TouchableWithoutFeedback>
@@ -204,6 +253,7 @@ export default class goaltaskentry extends Component{
 					</View>
 				}
 			</View>
+			*/
 		)
 	}
 }

@@ -26,9 +26,10 @@ import EditGoal from './src/screens/editgoal.js';
 import NewGoal from './src/screens/newgoal.js';
 import onboarding from './src/screens/onboarding.js';
 import IdeaDashboardScreen from './src/screens/ideadashboard.js';
-
+import AccomplishmentScreen from './src/screens/accomplishment.js';
 
 import { setCustomText } from 'react-native-global-props';
+import {primaryColor} from './styles'
 
 UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
 
@@ -91,6 +92,14 @@ const TabScreen = createMaterialTopTabNavigator(
             },
         },
 
+        // accomplishment: {
+        //     screen: AccomplishmentScreen,
+        //     navigationOptions: {
+        //       tabBarIcon: <Icon name='medal' type="material-community" color="white" size={19}/>,
+        //       title: 'badges'
+        //     },
+        // }
+
         // wishlist: {
         //     screen: WishlistStack,
         //     navigationOptions: {
@@ -117,7 +126,7 @@ const TabScreen = createMaterialTopTabNavigator(
       style: {
         // backgroundColor: "hsl(200, 10%, 20%)",
         // backgroundColor: 'hsl(150, 40%, 30%)',
-        backgroundColor: '#006064',
+        backgroundColor: primaryColor,
         borderBottomColor: 'transparent',
       },
       labelStyle: {

@@ -3,7 +3,8 @@ import {StyleSheet} from 'react-native';
 
 const mainHue = 200;
 // const backgroundColor = "hsl("+mainHue+", 10%, 20%)";
-const backgroundColor = "#37474F";
+const backgroundColor = "#F3F8F8";
+const primaryColor = "#3DA848";
 const gutter = 16;
 
 const styles = StyleSheet.create({
@@ -17,7 +18,7 @@ const styles = StyleSheet.create({
   // border: { borderWidth: 1 },
   goal: { fontSize: 16, color: 'hsl(0, 40%, 50%)', fontFamily: 'Quicksand-Bold', fontSize: 16,},
   // label: { color: 'hsl('+mainHue+', 40%, 50%)', fontSize: 14, marginBottom: 5},
-  stat: { },
+  stat: { fontFamily: 'Quicksand-Light', fontStyle: 'normal', fontSize:48, fontWeight:'300', color:'#B5B5B5' },
   weeklyProgress: { backgroundColor: '#ddd', width: 20, flex: 1, height: 5, color: 'black', borderWidth: 1, borderColor: 'white', marginTop: 5, },
   monthlyMarker: {borderRadius: 5, width: '3%', height: 5, marginRight: 3, marginTop: 10,},
 
@@ -67,7 +68,7 @@ const styles = StyleSheet.create({
     padding: 0, margin: 0,
     height: 36, lineHeight: 36,},
 
-  bigTextInput: {fontFamily: 'Quicksand-Bold', marginBottom: 25, fontSize: 25, borderBottomWidth: 0},
+  bigTextInput: {fontFamily: 'Quicksand-Bold', marginBottom: 25, fontSize: 18, borderRadius: 5, borderWidth: 1, borderColor: "#E3E3E3", color: primaryColor},
   yellowButton: {backgroundColor: '#FFECB3', borderRadius: 3, overflow: 'hidden', color: '#5D4037', textAlign: 'center', paddingHorizontal: 24, paddingVertical: 6, paddingBottom: 8},
 
   picker: { padding: 0, margin: 0, height: 36, lineHeight: 36,},
@@ -75,18 +76,22 @@ const styles = StyleSheet.create({
   pickerItem: {fontSize: 12, fontFamily: 'Quicksand-Bold'},
 
   //position: 'absolute', top: 5, bottom: 5, left: 5, right: 5,
-  modal: {backgroundColor: '#795548', padding: 0, borderRadius: 5},
+  modal: {backgroundColor: 'white', padding: 0, borderRadius: 5},
+  modalLabel: {fontSize: 13, opacity: 0.4},
 
   rowwrap: {flexDirection: 'row', flexWrap: 'wrap'},
 
   colorLayer: {position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'orange', borderRadius: 3, opacity: 0},
 
   cardShadow: {
-    // shadowColor: '#000',
-    // shadowOffset: { width: 0, height: 0 },
-    // shadowOpacity: 1,
-    // shadowRadius: 10,
-    // elevation: 5,
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      elevation: 5
     },
 
   journalScore: {fontSize: 50, lineHeight: 60, color: 'white', fontFamily: 'Nunito-ExtraLight', textAlign: 'center'},
@@ -177,4 +182,4 @@ const golden = StyleSheet.create({
   coloredText: {color: 'hsl(200, 50%, 40%)'},
 });
 
-export {styles, listed, minimized, maximizedblue, maximizedgreen, snoozed, golden};
+export {styles, listed, minimized, maximizedblue, maximizedgreen, snoozed, golden, primaryColor};

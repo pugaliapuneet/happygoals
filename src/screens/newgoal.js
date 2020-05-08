@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, FlatList, TouchableOpacity, Image, CheckBox, ScrollView, TextInput, Picker, Button, Alert, ToastAndroid, ImageBackground, LayoutAnimation, TouchableHighlight} from 'react-native';
-import { ButtonGroup, Icon } from 'react-native-elements'
-import {styles} from '../../styles.js';
+import { ButtonGroup, Icon, Divider } from 'react-native-elements'
+import {styles, primaryColor} from '../../styles.js';
 import LinearGradient from 'react-native-linear-gradient';
 
 var moment = require('moment');
@@ -128,7 +128,33 @@ export default class newGoal extends Component {
 		let habitsStyle = this.state.mode == "habits" ? {borderColor: 'green', borderWidth: 2} : {}
 
 		return(
-			<View style={[styles.modal, {padding: 10}]}>
+			<View style={[styles.modal]}>
+				<View style={{padding: 25}}>
+					<Icon name='close' type="material-community"
+						size={21}
+						containerStyle={{position: 'absolute', top: 0, right: 0, padding: 25, zIndex: 1}}
+						color="rgba(0,0,0,0.5)"
+						onPress={() => that.props.closeModal()}
+					/>
+					<Text style={{fontSize: 18}}>Add New Goal</Text>
+				</View>
+				<Divider style={{ backgroundColor: '#E3E3E3', height: 1.5 }} />
+				<View style={{padding: 25}}>
+					<Text style={[styles.modalLabel]}>Goal Name</Text>
+					<TextInput
+						style={[styles.bigTextInput, {padding: 10, marginTop: 20, height: 42}]}
+						placeholder="Goal Name"
+						onChangeText={(inputVal) => this.setState({goalName: inputVal})}
+						value={this.state.goalName}
+					/>
+					<Icon name="check-circle-outline" type="material-community"
+						size={33}
+						containerStyle={{marginTop: 20}}
+						color={primaryColor}
+						onPress={this.createGoal}
+					/>
+				</View>
+				{/*
 				<LinearGradient colors={['#5D4037', '#795548']} style={{display: 'none', position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, borderRadius: 5}}></LinearGradient>
 				<View style={{padding: 10}}>
 					<Icon name='close' type="material-community"
@@ -222,6 +248,7 @@ export default class newGoal extends Component {
 						</TouchableHighlight>
 					</View>
 				</View>
+				*/}
 			</View>
 		)
 	}

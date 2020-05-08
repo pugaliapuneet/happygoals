@@ -366,15 +366,19 @@ class model {
 		});
 	}
 
-	getLogs() {
+	getLogs(goalName) {
 		let that = this;
 		// let startingTimestamp = moment().startOf('day').unix();
 		// timestamp: {$gte: startingTimestamp}
 
 		// let dblogs = new Datastore({ filename: 'logs2', autoload: true });
+		var query = { $not: {deleted:1} };
+		if (goalName) {
+			query.goalName = goalName;
+		}
 
 		return new Promise(function(resolve, reject) {
-			that.dblogs.find({$not: {deleted:1}}).sort({ timestamp: -1 }).exec(function(err, docs){
+			that.dblogs.find(query).sort({ timestamp: -1 }).exec(function(err, docs){
 				newDocs = {};
 				docs.forEach((l, i) => {
 					let dateString = moment.unix(l.timestamp).format("DD/MM/YYYY");

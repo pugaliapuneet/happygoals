@@ -54,10 +54,10 @@ export default class JournalScreen extends Component{
 				if (goal.mode == 'tasks') {
 					let p = goal.recentScore/goal.bigScore*100;
 					if (p < 75) {
-						slowdowns.push(<Text style={[styles.label, {color: 'white'}]}>{goal.name}</Text>);
+						slowdowns.push(<Text style={[styles.label]}>{goal.name}</Text>);
 					}
 					if (p > 125) {
-						acceleration.push(<Text style={[styles.label, {color: 'white'}]}>{goal.name}</Text>);
+						acceleration.push(<Text style={[styles.label]}>{goal.name}</Text>);
 					}
 				}
 			});
@@ -96,22 +96,22 @@ export default class JournalScreen extends Component{
 												// </View>);
 
 												z.push(<View key={i2} style={[styles.rowwrap, {justifyContent: 'space-between', paddingVertical: 3, paddingHorizontal: 10}]}>
-													<Text style={[styles.label, {color: 'green', fontSize: 14}]}>{item.name}</Text>
-													<Text style={{color: 'white', fontSize: 14}}>{item.lastActivity}</Text>
+													<Text style={[styles.label, {color: '#0097A7', fontSize: 14}]}>{item.name}</Text>
+													<Text style={{fontSize: 14}}>{item.lastActivity}</Text>
 												</View>);
 											}
 											//pending
 											else if(item.lastActivity > 7) {
 												z.push(<View key={i2} style={[styles.rowwrap, {justifyContent: 'space-between', paddingVertical: 3, paddingHorizontal: 10}]}>
-													<Text style={[styles.label, {color: 'white', fontSize: 14}]}>{item.name}</Text>
-													<Text style={{color: 'white', fontSize: 14}}>{item.lastActivity}</Text>
+													<Text style={[styles.label, {fontSize: 14}]}>{item.name}</Text>
+													<Text style={{fontSize: 14}}>{item.lastActivity}</Text>
 												</View>);
 											}
 										});
 
 										if(z.length)
 										{
-											x.push(<Text style={[styles.label, {color: '#FFD1F2'}]}>{goal.name}</Text>);
+											x.push(<Text style={[styles.label, {color: '#0097A7'}]}>{goal.name}</Text>);
 											x.push(<View key="0" style={[styles.rowwrap, {marginBottom: 10}]}>{z}</View>);
 										}
 	    							});

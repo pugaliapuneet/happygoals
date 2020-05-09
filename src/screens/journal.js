@@ -512,7 +512,7 @@ class JournalScreen extends Component{
 						<BarChart
 							style={{ width: '100%', height: 100, borderWidth: 0}}
 							data={ chartDataOfPoints }
-							contentInset={{ top: 0, bottom: 0, left: 0, right: 0}}
+							contentInset={{ top: 0, bottom: 20, left: 0, right: 0}}
 							curve={ shape.curveNatural }
 							svg={{ stroke: 'rgba(0,0,0,0)', fill: "#C7EBCA", strokeWidth: 2, strokeOpacity: 1 }}
 							yAccessor={({ item }) => item.value}>

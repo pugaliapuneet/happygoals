@@ -51,6 +51,8 @@ class JournalScreen extends Component{
 	loadJournal = () => {
 		const that = this;
 
+		//TODO: what data are being fetched?
+		//TODO: Are we doing date windowing?
 		Promise.all([model.getLogs(), model.getPointsTable(), model.getActiveGoals(null, this.view_date)]).then(function(array){
 
 			let logs = array[0];
@@ -66,6 +68,7 @@ class JournalScreen extends Component{
 			}
 			// console.log("GOALSSSS", goals);
 
+			//TODO: Refactor: Push this out in a function - extract_high_value_activities
 			//loop over logs to check 5star achievements
 			Object.keys(logs).forEach((date) => {
 				// console.log(date);
@@ -79,6 +82,7 @@ class JournalScreen extends Component{
 				}
 			});
 
+			//TODO: refactor to function extract_achievements()
 			//loop over goals
 			goals.forEach((goal) => {
 				// console.log("GOALSSS", goal);
@@ -132,6 +136,7 @@ class JournalScreen extends Component{
 		AsyncStorage.setItem("RefreshDashboard", "yes");
 		this.loadJournal();
 	}
+
 	deleteLogById = (_id) => {
 		model.deleteLogById(_id);
 
@@ -144,6 +149,8 @@ class JournalScreen extends Component{
 
 	_renderItem = ({item: l}) => {
 		console.log("LLLL", l);
+
+		//TODO: extract to function hodStyle
 		let hourOfDay = moment.unix(l.createdAt).format("H");
 		let hodStyle = {};
 		if(hourOfDay < 12)
@@ -224,6 +231,7 @@ class JournalScreen extends Component{
 		let logs = this.state.logs;
 		let that = this;
 
+		//TODO: duplicate - use extract_high_value_activites function
 		//loop over logs to check 5star achievements
 		Object.keys(logs).forEach((date) => {
 			// console.log(date);
@@ -239,6 +247,8 @@ class JournalScreen extends Component{
 
 		model.getGoalsJournal().then((allGoals) => {
 			let goals = {};
+
+			//TODO: What does this log iteration do? explain
 			Object.keys(logs).map((date) => {
 				let topScore = {};
 				logs[date].map((log) => {
@@ -261,6 +271,7 @@ class JournalScreen extends Component{
 					}
 				});
 			});
+
 			Object.values(goals).map((goal) => {
 				if(goal.mode == "tasks") {
 					goal.bigScore = Math.round(goal.totalPoints/goal.daysSpent*10)/10;
@@ -272,7 +283,8 @@ class JournalScreen extends Component{
 					if(goal.bigScore > 100)
 						goal.bigScore = 100;
 				}
-				
+
+				//TODO: use extract_achievements()
 				if(goal.mode == "tasks" && goal.bigScore > 0 && goal.totalPointsToday >= goal.bigScore*2) {
 					that.achievements['2x'].push(goal.name);
 				}
@@ -298,6 +310,7 @@ class JournalScreen extends Component{
 		}).catch(err => {
 			console.log("getGoalsJournal() Error:", err);
 		});
+
 		// model.getActiveGoals(null, this.view_date).then(function (goals) {
 		// 	goals.forEach((goal) => {
 		// 		//2x
@@ -329,6 +342,8 @@ class JournalScreen extends Component{
 		// 	console.log("getActiveGoals() Error:", err);
 		// })
 		// this.loadJournal();
+		
+		//TODO: check library for readable date utility or crate a utility for the below
 		if (this.view_date == moment().format("DD/MM/YYYY")) {
 			this.readableDate = "Today";
 		}
@@ -502,6 +517,7 @@ class JournalScreen extends Component{
 							svg={{ stroke: 'rgba(0,0,0,0)', fill: "#C7EBCA", strokeWidth: 2, strokeOpacity: 1 }}
 							yAccessor={({ item }) => item.value}>
 						</BarChart>
+						{/* TODO: Create a component for this. Should be able to take an array of label => value and generate as many stats below a chart */}
 						<View style={{flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 20}}>
 							<Text style={{opacity: .3, fontSize: 14}}>Top: {topScore}</Text>
 							<Text style={{opacity: .3, fontSize: 14}}>Avg: {topScore}</Text>

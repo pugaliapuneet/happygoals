@@ -35,14 +35,6 @@ class DashboardScreen extends Component{
 		this.isLoaded = false;
 		this.refreshing = false;
 
-		// this.quotes = [
-		// 	"Discipline is the bridge between goals and accomplishment \n\n \n\n Jim Rohn",
-		// 	"Your goals are the road maps that guide you and show you what is possible for your life \n\n \n\n Les Brown",
-		// 	"The game has its ups and downs, but you can never lose focus of your individual goals and you can't let yourself be beat because of lack of effort \n\n \n\n Michael Jordan",
-		// 	"If you want to accomplish the goals of your life, you have to begin with the spirit \n\n \n\n Oprah Winfrey",
-		// 	"What keeps me going is goals - Muhammad Ali",
-		// ]
-
 		this.createLog = this.createLog.bind(this);
 		this.loadDashboard = this.loadDashboard.bind(this);
 
@@ -114,6 +106,7 @@ class DashboardScreen extends Component{
 		}
 
 
+		//TODO: move to a utility function
 		Object.entries(this.props).forEach(([key, val]) =>
 			prevProps[key] !== val && console.log(`Prop '${key}' changed`)
 		);
@@ -149,6 +142,7 @@ class DashboardScreen extends Component{
 		this.setState({viewGoal: goalData});
 	}
 
+	//TODO: The delete and close goal functions look very similar, it can be merged into a common function probably
 	deleteGoal = (id, name) => {
 		const goalId = id;
 		const goalName = name;
@@ -245,6 +239,7 @@ class DashboardScreen extends Component{
 
 			let body;
 
+			//TODO: Double declaration of variable
 			headerContent = <View>
 				<View style={[{padding: 15, marginTop: 36, marginBottom: 0, alignItems: 'center', position: 'relative'}]}>
 					<View style={{alignItems: 'center'}}>
@@ -324,6 +319,7 @@ class DashboardScreen extends Component{
 
 					<View style={{height: 10, display: 'none'}}></View>
 
+					{/* TODO: there are 4 modals below, with repetitive declaration but different values, can this be reduced and made dynamic?  */}
 					<Modal
 						isVisible={this.state.isNGModalVisible}
 						onBackdropPress={() => this.setState({ isNGModalVisible: false })}

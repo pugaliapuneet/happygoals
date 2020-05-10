@@ -371,7 +371,7 @@ class JournalScreen extends Component{
 			let body;
 			if(!Object.keys(logs).length) {
 				body = <View style={[styles.body, {height: '100%', alignItems: 'center', justifyContent: 'center'}]}>
-					<Text style={{alignItems: 'stretch', textAlign: 'center', padding: 25, color: 'white'}}>Log some activities or habits to see data here.</Text>
+					<Text style={{alignItems: 'stretch', textAlign: 'center', padding: 25}}>Log some activities to see data here.</Text>
 				</View>
 			}
 			else {

@@ -280,7 +280,14 @@ class DashboardScreen extends Component{
 											forceRender={this.renderGoal} />
 									</View>);
 						else
-							return(<View style={{flex: 1, flexDirection: 'column', margin: 1}}><GoalHabitsEntry navigation={this.props.navigation} key={goals[i].name} data={goals[i]} createLog={this.createLog} dashboardFunctions={dashboardFunctions}/></View>);
+							return(<View style={{flex: 1, flexDirection: 'column', margin: 1}}>
+										<GoalHabitsEntry
+											navigation={this.props.navigation}
+											key={goals[i].name}
+											data={goals[i]}
+											createLog={this.createLog}
+											dashboardFunctions={dashboardFunctions}/>
+									</View>);
 					}}
 					numColumns={2}
 				/>

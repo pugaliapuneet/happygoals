@@ -85,29 +85,6 @@ export default class cardheader extends Component{
 		let tick = g.tickOverride ? g.tickOverride : "check";
 		checkedColor = tick == "check" ? "green" : "grey";
 
-		//<Text style={{fontSize: 12, color: 'rgba(255,255,255,0.5)', fontFamily: 'Quicksand-Bold'}}>{g.topDaySince} days ago</Text>
-		//<Text style={{fontSize: 12, color: 'rgba(255,255,255,0.5)'}}>of {g.duration}</Text>
-
-		/*<View style={[styles.rowwrap, g.cardStatus.labels]}>
-			{
-				g.labels.map((l, i) => {
-					return(<Text key={i} style={[styles.greenLabel, g.cardStatus.labels]}>{l}</Text>);
-				})
-			}
-		</View>*/
-
-		let lnb = [];
-		if(typeof g.labels != "undefined") {
-			g.labels.map((l, i) => {
-				lnb.push(<Text key={l} style={[styles.greenLabel, g.cardStatus.labels]}>{l}</Text>);
-			})
-		}
-		if(typeof g.backlogs != "undefined") {
-			g.backlogs.map((l, i) => {
-				lnb.push(<Text key={l} style={[styles.redLabel, g.cardStatus.backlogs]}>{l}</Text>);
-			})
-		}
-
 		let editIconStyle;
 		if(this.state.editMode)
 			editIconStyle = {};
@@ -133,11 +110,10 @@ export default class cardheader extends Component{
 					</View>
 					<Divider style={{ backgroundColor: '#E3E3E3', height: 1.5 }} />
 					<View>
-						{
-						typeof g.items != "undefined" &&
 						<View style={{padding: 25}}>
 						    <View style={[{flexDirection: 'row', flexWrap: 'wrap', zIndex: 1, paddingBottom: 15}]}>
 						    {
+								typeof g.items != "undefined" &&
 						    	g.items.map((t, index1) => {
 						    		let counter = <Text></Text>;
 						    		styles.optional = {};
@@ -186,7 +162,12 @@ export default class cardheader extends Component{
 						    		</TouchableWithoutFeedback>
 						    	})
 						    }
-							<Icon name="plus-circle-outline" color={primaryColor} type="material-community" size={19} onPress={() => {this.props.dashboardFunctions._toggleNTModal(g.name);}} />
+							<TouchableWithoutFeedback  onPress={() => {this.props.dashboardFunctions._toggleNTModal(g.name);}} >
+								<View style={[styles.rowwrap, {alignItems: 'center'}]}>
+									<Icon name="plus-circle-outline" color="grey" type="material-community" size={19}/>
+									<Text style={[ {fontFamily: 'Quicksand-Bold', fontSize: 15, marginLeft: 5, color: "grey"}]}>Add activity</Text>
+								</View>
+							</TouchableWithoutFeedback>
 						    </View>
 							<View style={{height: 100}}>
 								{ this.state.chartData && <BarChart
@@ -206,7 +187,6 @@ export default class cardheader extends Component{
 								<Text style={{opacity: .3, fontSize: 14}}>Week: {g.completed.weeks || '0'}</Text>
 							</View>
 						</View>
-						}
 						{
 							this.state.expanded &&
 							<ControlFooter dashboardFunctions={this.props.dashboardFunctions} g={g} snooze={this.snooze} _toggleEditMode={this._toggleEditMode}/>
@@ -268,7 +248,5 @@ export default class cardheader extends Component{
 				</View>
 			// </TouchableWithoutFeedback>
 		);
-		//<View style={[styles.rowwrap, g.cardStatus.labels]}>{lnb}</View>
-
 	}
 }

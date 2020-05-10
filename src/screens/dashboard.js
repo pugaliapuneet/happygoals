@@ -240,7 +240,7 @@ class DashboardScreen extends Component{
 			let body;
 
 			headerContent = <View style={{margin: 10}}>
-				<View style={{marginTop: 16, flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
+				<View style={[ {marginTop: 16, justifyContent: 'space-between'}, styles.rowwrap ]}>
 					<View>{this.renderLogo()}</View>
 					<View>
 						<Icon name='plus-circle-outline' type="material-community" color="green" size={40} iconStyle={{}} onPress={this._toggleNGModal}/>

@@ -296,8 +296,8 @@ class DashboardScreen extends Component{
 				body =
 				<View>
 					{headerContent}
-					<Text style={{textAlign: 'center', marginTop: 200}}>You don't have any goals</Text>
-					<Text style={{textAlign: 'center', marginTop: 20}} onPress={() => this.props.navigation.navigate('onboarding')}>How does it work?</Text>
+					<Text style={{textAlign: 'center', marginTop: 200, marginBottom: 100}}>You don't have any goals</Text>
+					{/* <Text style={{textAlign: 'center', marginTop: 20, marginBottom: 100}} onPress={() => this.props.navigation.navigate('onboarding')}>How does it work?</Text> */}
 				</View>
 			}
 
@@ -358,13 +358,13 @@ class DashboardScreen extends Component{
 						<CardHeader g={this.state.viewGoal} onP={null} dashboardFunctions={dashboardFunctions} />
 					</Modal>
 
-					<BannerAd
+					{/* <BannerAd
 						unitId={TestIds.BANNER}
 						size={BannerAdSize.FULL_BANNER}
 						requestOptions={{requestNonPersonalizedAdsOnly: true,}}
 						onAdLoaded={() => {console.log('Advert loaded');}}
 						onAdFailedToLoad={(error) => {console.error('Advert failed to load: ', error);}}
-					/>
+					/> */}
 				</View>
 			);
 		}

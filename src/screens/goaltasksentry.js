@@ -164,10 +164,10 @@ export default class goaltaskentry extends Component{
 					<View style={{display: 'flex', flexDirection: 'column', padding: 15, paddingBottom: 70}} >
 						<View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 15}}>
 							<Text style={{textAlignVertical: 'top'}}>{g.name}</Text>
-							<View style={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'}}>
+							{/* <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'}}>
 								<Icon name='arrow-up' type="material-community" color="green" size={19}/>
 								<Icon name='arrow-up' type="material-community" color="green" size={19}/>
-							</View>
+							</View> */}
 						</View>
 						<Text style={[styles.stat]}>{g.bigScore}</Text>
 					</View>

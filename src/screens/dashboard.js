@@ -239,35 +239,11 @@ class DashboardScreen extends Component{
 
 			let body;
 
-			//TODO: Double declaration of variable
-			headerContent = <View>
-				<View style={[{padding: 15, marginTop: 36, marginBottom: 0, alignItems: 'center', position: 'relative'}]}>
-					<View style={{alignItems: 'center'}}>
-						<Image source={require('../../assets/images/1786310-200-blue.png')} style={{width: 30, height: 30}}/>
-					</View>
-					<Text style={{color: '#E0F7FA'}}>HappyGoals</Text>
-				</View>
-				<View style={[styles.rowwrap, {justifyContent: 'space-between', alignItems: 'center', padding: 15}]}>
-					<TouchableOpacity onPress={() => this.props.navigation.navigate('ideas')}>
-						<Icon name='flash-circle' type="material-community" color="white" size={21} containerStyle={{paddingTop: 10, marginTop: 16, paddingBottom: 5}}/>
-						<Text style={{borderRadius: 5, color: 'white', paddingVertical: 3, paddingBottom: 5, color: '#FF9100', fontSize: 12, width: 80, textAlign: 'center'}}>Ideas</Text>
-					</TouchableOpacity>
-					<View style={{borderColor: "#263238", borderWidth: 0, borderRadius: 50, marginHorizontal: 10}}>
-						<Text style={{ paddingHorizontal: 20, paddingVertical: 10, paddingBottom: 0, fontSize: 32, color: 'white', fontFamily: 'Nunito-Regular', textAlign: 'center'}}>{this.state.totalPointsToday}</Text>
-						<Text style={{fontFamily: 'Quicksand-Bold', textAlign: 'center', color: 'rgba(255,255,255,0.4)', fontSize: 12}}>Points Today</Text>
-					</View>
-					<TouchableOpacity onPress={this._toggleNGModal} onPress1={() => this.props.navigation.navigate("newGoal", {postSubmit: this.loadDashboard})}>
-						<Icon name='plus-circle-outline' type="material-community" color="white" size={21} containerStyle={{paddingTop: 10, marginTop: 16, paddingBottom: 5}}/>
-						<Text style={{borderRadius: 5, color: 'white', paddingVertical: 3, paddingBottom: 5, color: '#76FF03', fontSize: 12, width: 80, textAlign: 'center'}}>New Goal</Text>
-					</TouchableOpacity>
-				</View>
-			</View>;
-
 			headerContent = <View style={{margin: 10}}>
 				<View style={{marginTop: 16, flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
 					<View>{this.renderLogo()}</View>
 					<View>
-					<Icon name='plus-circle-outline' type="material-community" color="green" size={40} iconStyle={{}} onPress={this._toggleNGModal}/>
+						<Icon name='plus-circle-outline' type="material-community" color="green" size={40} iconStyle={{}} onPress={this._toggleNGModal}/>
 					</View>
 				</View>
 				<View style={{marginVertical:10}}>
@@ -294,7 +270,15 @@ class DashboardScreen extends Component{
 
 
 						if(goals[i].mode == "tasks")
-							return(<View style={{flex: 1, flexDirection: 'column', margin: 1}}><GoalTasksEntry navigation={this.props.navigation} key={goals[i].name} data={goals[i]} createLog={this.createLog} dashboardFunctions={dashboardFunctions} forceRender={this.renderGoal}/></View>);
+							return (<View style={{ flex: 1, flexDirection: 'column', margin: 1 }}>
+										<GoalTasksEntry
+											navigation={this.props.navigation}
+											key={goals[i].name}
+											data={goals[i]}
+											createLog={this.createLog}
+											dashboardFunctions={dashboardFunctions}
+											forceRender={this.renderGoal} />
+									</View>);
 						else
 							return(<View style={{flex: 1, flexDirection: 'column', margin: 1}}><GoalHabitsEntry navigation={this.props.navigation} key={goals[i].name} data={goals[i]} createLog={this.createLog} dashboardFunctions={dashboardFunctions}/></View>);
 					}}
@@ -305,8 +289,8 @@ class DashboardScreen extends Component{
 				body =
 				<View>
 					{headerContent}
-					<Text style={{color: 'rgba(255,255,255,0.5)', textAlign: 'center', marginTop: 200}}>You don't have any goals</Text>
-					<Text style={{color: 'rgba(255,255,150,0.75)', textAlign: 'center', marginTop: 20}} onPress={() => this.props.navigation.navigate('onboarding')}>How does it work?</Text>
+					<Text style={{textAlign: 'center', marginTop: 200}}>You don't have any goals</Text>
+					<Text style={{textAlign: 'center', marginTop: 20}} onPress={() => this.props.navigation.navigate('onboarding')}>How does it work?</Text>
 				</View>
 			}
 

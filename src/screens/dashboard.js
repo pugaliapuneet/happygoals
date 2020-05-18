@@ -42,6 +42,7 @@ class DashboardScreen extends Component{
 	}
 
 	createLog(goalName, habitName, timestamp, reverse = false) {
+		console.log("Hello");
 		let that = this;
 		if(reverse) {
 			let _id = model.getLogId(goalName, habitName, timestamp);
@@ -105,14 +106,7 @@ class DashboardScreen extends Component{
 			});
 		}
 
-
-		//TODO: move to a utility function
-		Object.entries(this.props).forEach(([key, val]) =>
-			prevProps[key] !== val && console.log(`Prop '${key}' changed`)
-		);
-		Object.entries(this.state).forEach(([key, val]) =>
-			prevState[key] !== val && console.log(`State '${key}' changed`)
-		);
+		// this.logStateChanges(prevProps, prevState);
 	}
 
 	_toggleNGModal = () => this.setState({ isNGModalVisible: !this.state.isNGModalVisible });
@@ -375,6 +369,16 @@ class DashboardScreen extends Component{
 
 			</View>);
 		}
+	}
+
+
+	logStateChanges(prevProps, prevState) {
+		Object.entries(this.props).forEach(([key, val]) =>
+			prevProps[key] !== val && console.log(`Prop '${key}' changed`)
+		);
+		Object.entries(this.state).forEach(([key, val]) =>
+			prevState[key] !== val && console.log(`State '${key}' changed`)
+		);
 	}
 }
 

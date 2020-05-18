@@ -48,6 +48,43 @@ class JournalScreen extends Component{
 		}
 	}
 
+	extractHighValueActivites = (logs, pointsTable) => {
+		Object.keys(logs).forEach((date) => {
+			// console.log(date);
+			if(date == moment().format("DD/MM/YYYY")) {
+				logs[date].forEach((log) => {
+					if(pointsTable[log.goalName][log.itemName] >= 4 && !this.achievements['4/5 stars'].includes(log.itemName))
+					{
+						this.achievements['4/5 stars'].push(log.itemName);
+					}
+				})
+			}
+		});
+	}
+
+	extractAchievements = (goals) => {
+		goals.forEach((goal) => {
+			if(goal.mode == "tasks" && goal.bigScore > 0 && goal.totalPointsToday >= goal.bigScore*2) {
+				this.achievements['2x'].push(goal.name);
+			}
+			else {
+				//improvements and completions
+				if(goal.isCompleted == 1 && goal.totalPointsToday > 0 && goal.mode == "tasks") {
+					this.achievements['Improvements'].push(goal.name);
+				}
+
+				if(goal.isCompleted == 1 && goal.totalCountToday > 0 && goal.mode == "habits") {
+					this.achievements['Checked'].push(goal.name);
+				}
+
+				//topDays
+				if(goal.mode == "tasks" && goal.totalPointsToday >= goal.topScore) {
+					this.achievements['Top Day'].push(goal.name);
+				}
+			}
+		})
+	}
+
 	loadJournal = () => {
 		const that = this;
 
@@ -66,49 +103,10 @@ class JournalScreen extends Component{
 				'Improvements': [],
 				'Checked': [],
 			}
-			// console.log("GOALSSSS", goals);
+			console.log("GOALSSSS", goals);
 
-			//TODO: Refactor: Push this out in a function - extract_high_value_activities
-			//loop over logs to check 5star achievements
-			Object.keys(logs).forEach((date) => {
-				// console.log(date);
-				if(date == moment().format("DD/MM/YYYY")) {
-					logs[date].forEach((log) => {
-						if(array[1][log.goalName][log.itemName] >= 4 && !that.achievements['4/5 stars'].includes(log.itemName))
-						{
-							that.achievements['4/5 stars'].push(log.itemName);
-						}
-					})
-				}
-			});
-
-			//TODO: refactor to function extract_achievements()
-			//loop over goals
-			goals.forEach((goal) => {
-				// console.log("GOALSSS", goal);
-
-				//2x
-				if(goal.mode == "tasks" && goal.bigScore > 0 && goal.totalPointsToday >= goal.bigScore*2) {
-					that.achievements['2x'].push(goal.name);
-				}
-				else {
-					//improvements and completions
-					if(goal.isCompleted == 1 && goal.totalPointsToday > 0 && goal.mode == "tasks") {
-						that.achievements['Improvements'].push(goal.name);
-					}
-
-					if(goal.isCompleted == 1 && goal.totalCountToday > 0 && goal.mode == "habits") {
-						that.achievements['Checked'].push(goal.name);
-					}
-
-					//topDays
-					if(goal.mode == "tasks" && goal.totalPointsToday >= goal.topScore) {
-						that.achievements['Top Day'].push(goal.name);
-					}
-				}
-			})
-
-			// console.log(that.achievements);
+			that.extractHighValueActivites(logs, pointsTable);
+			that.extractAchievements(goals);
 
 			that.setState({
 				logs: logs,
@@ -147,11 +145,8 @@ class JournalScreen extends Component{
 		this.loadJournal();
 	}
 
-	_renderItem = ({item: l}) => {
-		console.log("LLLL", l);
-
-		//TODO: extract to function hodStyle
-		let hourOfDay = moment.unix(l.createdAt).format("H");
+	hodStyle = (createdAt) => {
+		let hourOfDay = moment.unix(createdAt).format("H");
 		let hodStyle = {};
 		if(hourOfDay < 12)
 			hodStyle = {backgroundColor: 'lightblue'};
@@ -161,6 +156,12 @@ class JournalScreen extends Component{
 			hodStyle = {backgroundColor: 'pink'};
 		else
 			hodStyle = {backgroundColor: 'grey'};
+
+		return hodStyle;
+	}
+
+	_renderItem = ({item: l}) => {
+		hodStyle = this.hodStyle(l.createdAt);
 
 		//{l.goalName} -
 		return(<View key={l.itemName+l.createdAt} style={[styles.rowwrap, {justifyContent: 'space-between', paddingVertical: 3, paddingHorizontal: 10}]}>
@@ -343,7 +344,10 @@ class JournalScreen extends Component{
 		// })
 		// this.loadJournal();
 		
-		//TODO: check library for readable date utility or crate a utility for the below
+		this.getReadableDate();
+	}
+
+	getReadableDate = () => {
 		if (this.view_date == moment().format("DD/MM/YYYY")) {
 			this.readableDate = "Today";
 		}
@@ -355,7 +359,6 @@ class JournalScreen extends Component{
 		}
 		else
 			this.readableDate = this.view_date;
-		ToastAndroid.show(this.view_date, ToastAndroid.LONG);
 	}
 
 	render() {

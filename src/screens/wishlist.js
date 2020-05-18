@@ -50,7 +50,7 @@ export default class WishlistScreen extends Component{
 					docs.map((g, index) => {
 						// console.log(g);
 						if(g.status && typeof g.items !== "undefined" && g.items.length)
-							fetchGoalData.push(model.getActiveGoals(g.name));
+							fetchGoalData.push(model.getGoals(g.name));
 
 						if(typeof categories[g.category] === "undefined")
 							categories[g.category] = [];

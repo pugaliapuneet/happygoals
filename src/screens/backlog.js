@@ -22,7 +22,7 @@ export default class JournalScreen extends Component{
 	loadJournal = () => {
 		const that = this;
 
-		model.getActiveGoals().then(function(data){
+		model.getGoals().then(function(data){
 			that.setState({goals: data});
 			that.setState({refreshing: false});
 		});

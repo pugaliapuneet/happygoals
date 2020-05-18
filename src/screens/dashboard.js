@@ -70,7 +70,7 @@ class DashboardScreen extends Component{
 		const that = this;
 		this.renderGoal = null; // Resset force rendering a goal card after update of item of goal
 		// console.log("getting active goals");
-		model.getActiveGoals().then(function(goals){
+		model.getGoals().then(function(goals){
 			LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
 
 			that.isLoaded = true;

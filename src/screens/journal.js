@@ -85,33 +85,27 @@ class JournalScreen extends Component{
 		})
 	}
 
+	initAchievements = () => {
+		this.achievements = {
+			'2x': [],
+			'Top Day': [],
+			'4/5 stars': [],
+			'Improvements': [],
+			'Checked': [],
+		}
+	}
 	loadJournal = () => {
 		const that = this;
 
-		//TODO: what data are being fetched?
-		//TODO: Are we doing date windowing?
-		Promise.all([model.getLogs(), model.getPointsTable(), model.getActiveGoals(null, this.view_date)]).then(function(array){
-
-			let logs = array[0];
-			let pointsTable = array[1];
-			let goals = array[2];
-
-			that.achievements = {
-				'2x': [],
-				'Top Day': [],
-				'4/5 stars': [],
-				'Improvements': [],
-				'Checked': [],
-			}
-			console.log("GOALSSSS", goals);
-
-			that.extractHighValueActivites(logs, pointsTable);
-			that.extractAchievements(goals);
+		Promise.all([model.getLogs(), model.getPointsTable(), model.getGoals(null, this.view_date)]).then(function(array){
+			that.initAchievements();
+			that.extractHighValueActivites(array[0], array[1]);
+			that.extractAchievements(array[2]);
 
 			that.setState({
-				logs: logs,
-				pointsTable: pointsTable,
-				goals: goals,
+				logs: array[0],
+				pointsTable: array[1],
+				goals: array[2],
 				refreshing: false,
 			});
 
@@ -221,13 +215,8 @@ class JournalScreen extends Component{
 		}
 		else
 			return;
-		this.achievements = {
-			'2x': [],
-			'Top Day': [],
-			'4/5 stars': [],
-			'Improvements': [],
-			'Checked': [],
-		}
+		
+		this.initAchievements();
 		this.setState({refreshing: true});
 		let logs = this.state.logs;
 		let that = this;
@@ -312,7 +301,7 @@ class JournalScreen extends Component{
 			console.log("getGoalsJournal() Error:", err);
 		});
 
-		// model.getActiveGoals(null, this.view_date).then(function (goals) {
+		// model.getGoals(null, this.view_date).then(function (goals) {
 		// 	goals.forEach((goal) => {
 		// 		//2x
 		// 		if(goal.mode == "tasks" && goal.totalPointsToday >= goal.bigScore*2) {
@@ -340,7 +329,7 @@ class JournalScreen extends Component{
 		// 		refreshing: false
 		// 	});
 		// }).catch(err => {
-		// 	console.log("getActiveGoals() Error:", err);
+		// 	console.log("getGoals() Error:", err);
 		// })
 		// this.loadJournal();
 		

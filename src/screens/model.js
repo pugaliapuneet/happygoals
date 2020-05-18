@@ -70,7 +70,7 @@ class model {
 		})
 	}
 
-	getActiveGoals(goalName = null, forDate = null) {
+	getGoals(goalName = null, forDate = null) {
 		let dbgoals = new Datastore({ filename: 'goals1', autoload: true });
 		let that = this;
 

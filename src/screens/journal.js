@@ -98,6 +98,7 @@ class JournalScreen extends Component{
 		const that = this;
 
 		Promise.all([model.getLogs(), model.getPointsTable(), model.getGoals(null, this.view_date)]).then(function(array){
+
 			that.initAchievements();
 			that.extractHighValueActivites(array[0], array[1]);
 			that.extractAchievements(array[2]);
@@ -125,8 +126,7 @@ class JournalScreen extends Component{
 		ToastAndroid.show("Deleted: "+goalName+", "+itemName+", "+timestamp, ToastAndroid.LONG);
 		ReactNativeHapticFeedback.trigger('impactHeavy', true);
 
-		AsyncStorage.setItem("RefreshDashboard", "yes");
-		this.loadJournal();
+		this.refreshJournal("yes");
 	}
 
 	deleteLogById = (_id) => {
@@ -135,7 +135,11 @@ class JournalScreen extends Component{
 		ToastAndroid.show("Deleted: "+_id, ToastAndroid.LONG);
 		ReactNativeHapticFeedback.trigger('impactHeavy', true);
 
-		AsyncStorage.setItem("RefreshDashboard", "yes");
+		this.refreshJournal("yes");
+	}
+
+	refreshJournal = (refreshDashboard) => {
+		AsyncStorage.setItem("RefreshDashboard", refreshDashboard);
 		this.loadJournal();
 	}
 
@@ -200,8 +204,7 @@ class JournalScreen extends Component{
 		model.editLogDate(this.state.editingJournal, moment(this.state.editingJournalCreatedAt).unix())
 		this.setState({editingJournal: null, editModalVisible: false});
 		ToastAndroid.show("Date changed!", ToastAndroid.LONG);
-		AsyncStorage.setItem("RefreshDashboard", "yes");
-		this.loadJournal();
+		this.refreshJournal("yes");
 	}
 
 	_keyExtractor = (item, index) => item.itemName+item.createdAt;

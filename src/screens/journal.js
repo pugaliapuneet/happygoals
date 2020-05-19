@@ -49,12 +49,12 @@ class JournalScreen extends Component{
 		}
 	}
 
-	extractHighValueActivites = (logs, pointsTable) => {
+	extractHighValueActivites = (logs) => {
 		Object.keys(logs).forEach((date) => {
 			// console.log(date);
-			if(date == moment().format("DD/MM/YYYY")) {
+			if(date == this.view_date) {
 				logs[date].forEach((log) => {
-					if(pointsTable[log.goalName][log.itemName] >= 4 && !this.achievements['4/5 stars'].includes(log.itemName))
+					if(this.state.pointsTable[log.goalName][log.itemName] >= 4 && !this.achievements['4/5 stars'].includes(log.itemName))
 					{
 						this.achievements['4/5 stars'].push(log.itemName);
 					}
@@ -95,21 +95,24 @@ class JournalScreen extends Component{
 			'Checked': [],
 		}
 	}
+
 	loadJournal = () => {
 		const that = this;
 
-		Promise.all([model.getLogs(), model.getPointsTable(), model.getGoals(null, this.view_date)]).then(function(array){
-
+		Promise.all([model.getLogs(), model.getPointsTable(), model.getGoals(null, that.view_date)]).then(array => {
+			
 			that.initAchievements();
-			that.extractHighValueActivites(array[0], array[1]);
-			that.extractAchievements(array[2]);
-
+			
 			that.setState({
 				logs: array[0],
 				pointsTable: array[1],
 				goals: array[2],
 				refreshing: false,
+			}, function(){
+				that.extractAchievements(array[2]);
+				that.extractHighValueActivites(array[0]);
 			});
+			
 
 		}).catch(err => {
 			console.log("EEEEE", err);
@@ -225,19 +228,7 @@ class JournalScreen extends Component{
 		let logs = this.state.logs;
 		let that = this;
 
-		//TODO: duplicate - use extract_high_value_activites function
-		//loop over logs to check 5star achievements
-		Object.keys(logs).forEach((date) => {
-			// console.log(date);
-			if(date == this.view_date) {
-				logs[date].forEach((log) => {
-					if(that.state.pointsTable[log.goalName][log.itemName] >= 4 && !that.achievements['4/5 stars'].includes(log.itemName))
-					{
-						that.achievements['4/5 stars'].push(log.itemName);
-					}
-				})
-			}
-		});
+		this.extractHighValueActivites(logs);
 
 		model.getGoalsJournal().then((allGoals) => {
 			let goals = {};

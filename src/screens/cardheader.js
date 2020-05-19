@@ -6,6 +6,7 @@ import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 import model from './model.js';
 import ControlFooter from './controlfooter.js';
 import { BarChart } from 'react-native-svg-charts';
+import ChartBottom from '../components/ChartBottom.js';
 
 const moment = require('moment');
 
@@ -180,12 +181,7 @@ export default class cardheader extends Component{
 								>
 								</BarChart>}
 							</View>
-							<View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-								<Text style={{opacity: .3, fontSize: 14}}>Top: {g.topScore || '0'}</Text>
-								<Text style={{opacity: .3, fontSize: 14}}>Avg: {g.topScore || '0'}</Text>
-								<Text style={{opacity: .3, fontSize: 14}}>Recent: {g.recentScore || '0'}</Text>
-								<Text style={{opacity: .3, fontSize: 14}}>Week: {g.completed.weeks || '0'}</Text>
-							</View>
+							<ChartBottom data={{'Top': g.topScore, 'Avg': g.topScore, 'Recent': g.recentScore, 'Week': g.completed.weeks}}></ChartBottom>
 						</View>
 						{
 							this.state.expanded &&

@@ -15,6 +15,7 @@ var moment = require('moment');
 
 import model from './model.js';
 import { Icon } from 'react-native-elements'
+import ChartBottom from '../components/ChartBottom.js';
 
 class JournalScreen extends Component{
 	constructor(props) {
@@ -512,13 +513,7 @@ class JournalScreen extends Component{
 							svg={{ stroke: 'rgba(0,0,0,0)', fill: "#C7EBCA", strokeWidth: 2, strokeOpacity: 1 }}
 							yAccessor={({ item }) => item.value}>
 						</BarChart>
-						{/* TODO: Create a component for this. Should be able to take an array of label => value and generate as many stats below a chart */}
-						<View style={{flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 20}}>
-							<Text style={{opacity: .3, fontSize: 14}}>Top: {topScore}</Text>
-							<Text style={{opacity: .3, fontSize: 14}}>Avg: {topScore}</Text>
-							<Text style={{opacity: .3, fontSize: 14}}>Recent: {recentScore}</Text>
-							<Text style={{opacity: .3, fontSize: 14}}>Week: 0</Text>
-						</View>
+						<ChartBottom data={{'Top': topScore, 'Avg': topScore, 'Recent': recentScore, 'Week': 0}}></ChartBottom>
 					</View>
 
 					<ScrollView style={{position: 'absolute', top: 250, bottom: 0, left: 0, right: 0, marginBottom: 10}}>

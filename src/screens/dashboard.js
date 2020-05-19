@@ -12,6 +12,7 @@ import NewGoal from './newgoal';
 import NewHabit from './newhabit';
 import NewTask from './newtask';
 import CardHeader from './cardheader.js';
+import HappyModal from '../components/HappyModal.js';
 
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -126,7 +127,7 @@ class DashboardScreen extends Component{
 			editingTask: editingTask
 		});
 	};
-	_toggleGCModal = (viewGoal) => {
+	_toggleGCModal = (viewGoal = this.state.viewGoal) => {
 		this.setState({
 			isGCModalVisible: !this.state.isGCModalVisible,
 			viewGoal: viewGoal
@@ -188,6 +189,8 @@ class DashboardScreen extends Component{
 			</Svg>
 		);
 	}
+
+	closeModalByKey = (key) => this.setState({ key : false })
 
 	render() {
 		if(this.isLoaded)
@@ -304,53 +307,21 @@ class DashboardScreen extends Component{
 
 					<View style={{height: 10, display: 'none'}}></View>
 
-					{/* TODO: there are 4 modals below, with repetitive declaration but different values, can this be reduced and made dynamic?  */}
-					<Modal
-						isVisible={this.state.isNGModalVisible}
-						onBackdropPress={() => this.setState({ isNGModalVisible: false })}
-						onSwipe={() => this.setState({ isNGModalVisible: false })}
-						swipeDirection="down"
-						hideModalContentWhileAnimating={true}
-						backdropColor='black' useNativeDriver={false}
-						backdropOpacity	= {0.85}
-					>
+					<HappyModal isVisible={this.state.isNGModalVisible} closeHandle={this._toggleNGModal}>
 						<NewGoal closeModal={this._toggleNGModal} postSubmit={this.loadDashboard}/>
-					</Modal>
+					</HappyModal>
 
-					<Modal
-						isVisible={this.state.isNHModalVisible}
-						onBackdropPress={() => this.setState({ isNHModalVisible: false })}
-						onSwipe={() => this.setState({ isNHModalVisible: false })}
-						swipeDirection="down"
-						hideModalContentWhileAnimating={true}
-						backdropColor='black' useNativeDriver={false}
-						backdropOpacity	= {0.85}
-					>
+					<HappyModal isVisible={this.state.isNHModalVisible} closeHandle={this._toggleNHModal}>
 						<NewHabit closeModal={this._toggleNHModal} goalName={this.state.editingGoal} postSubmit={this.loadDashboard}/>
-					</Modal>
+					</HappyModal>
 
-					<Modal
-						isVisible={this.state.isNTModalVisible}
-						onBackdropPress={() => this.setState({ isNTModalVisible: false })}
-						onSwipe={() => this.setState({ isNTModalVisible: false })}
-						swipeDirection="down"
-						hideModalContentWhileAnimating={true}
-						backdropColor='black' useNativeDriver={false}
-						backdropOpacity	= {0}
-					>
+					<HappyModal isVisible={this.state.isNTModalVisible} closeHandle={this._toggleNTModal}>
 						<NewTask closeModal={this._toggleNTModal} goalName={this.state.editingGoal} taskName={this.state.editingTask} postSubmit={this.loadDashboard}/>
-					</Modal>
-					<Modal
-						isVisible={this.state.isGCModalVisible}
-						onBackdropPress={() => this.setState({ isGCModalVisible: false })}
-						onSwipe={() => this.setState({ isGCModalVisible: false })}
-						swipeDirection="down"
-						hideModalContentWhileAnimating={true}
-						backdropColor='black' useNativeDriver={false}
-						backdropOpacity	= {0.85}
-					>
+					</HappyModal>
+					
+					<HappyModal isVisible={this.state.isGCModalVisible} closeHandle={this._toggleGCModal}>
 						<CardHeader g={this.state.viewGoal} onP={null} dashboardFunctions={dashboardFunctions} />
-					</Modal>
+					</HappyModal>
 
 					{/* <BannerAd
 						unitId={TestIds.BANNER}

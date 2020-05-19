@@ -112,7 +112,6 @@ class JournalScreen extends Component{
 				that.extractAchievements(array[2]);
 				that.extractHighValueActivites(array[0]);
 			});
-			
 
 		}).catch(err => {
 			console.log("EEEEE", err);
@@ -213,18 +212,27 @@ class JournalScreen extends Component{
 
 	_keyExtractor = (item, index) => item.itemName+item.createdAt;
 
-	changeDate = (direction) => {
+	calculateNewDate = (direction) => {
 		if (direction == 'prev') {
 			this.view_date=moment(this.view_date, 'DD/MM/YYYY').subtract(1, 'days').format("DD/MM/YYYY");
+			return true;
 		}
 		else if (direction == 'next' && moment(this.view_date, 'DD/MM/YYYY')<moment().subtract(1, 'days')) {
 			this.view_date=moment(this.view_date, 'DD/MM/YYYY').add(1, 'days').format("DD/MM/YYYY");
+			return true;
 		}
-		else
+		else 
+			return false;
+	}
+
+	changeDate = (direction) => {
+		if(!this.calculateNewDate(direction))
 			return;
 		
 		this.initAchievements();
+		
 		this.setState({refreshing: true});
+		
 		let logs = this.state.logs;
 		let that = this;
 

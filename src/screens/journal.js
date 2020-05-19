@@ -266,29 +266,12 @@ class JournalScreen extends Component{
 					goal.bigScore = Math.round(goal.totalCount/(goal.totalDailyRepetitionTarget*goal.daysSpent)*100);
 					goal.isCompleted = goal.bigScore >= 100 ? 1 : 0;
 					if(goal.bigScore > 100)
-						goal.bigScore = 100;
-				}
-
-				//TODO: use extract_achievements()
-				if(goal.mode == "tasks" && goal.bigScore > 0 && goal.totalPointsToday >= goal.bigScore*2) {
-					that.achievements['2x'].push(goal.name);
-				}
-				else {
-					//improvements and completions
-					if(goal.isCompleted == 1 && goal.totalPointsToday > 0 && goal.mode == "tasks") {
-						that.achievements['Improvements'].push(goal.name);
-					}
-
-					if(goal.isCompleted == 1 && goal.totalCountToday > 0 && goal.mode == "habits") {
-						that.achievements['Checked'].push(goal.name);
-					}
-
-					//topDays
-					if(goal.mode == "tasks" && goal.totalPointsToday >= goal.topScore) {
-						that.achievements['Top Day'].push(goal.name);
-					}
+					goal.bigScore = 100;
 				}
 			});
+			
+			this.extractAchievements(Object.values(goals));
+			
 			that.setState({
 				refreshing: false
 			});
@@ -296,38 +279,6 @@ class JournalScreen extends Component{
 			console.log("getGoalsJournal() Error:", err);
 		});
 
-		// model.getGoals(null, this.view_date).then(function (goals) {
-		// 	goals.forEach((goal) => {
-		// 		//2x
-		// 		if(goal.mode == "tasks" && goal.totalPointsToday >= goal.bigScore*2) {
-		// 			that.achievements['2x'].push(goal.name);
-		// 		}
-		// 		else {
-		// 			//improvements and completions
-		// 			if(goal.isCompleted == 1 && goal.totalPointsToday > 0 && goal.mode == "tasks") {
-		// 				that.achievements['Improvements'].push(goal.name);
-		// 			}
-
-		// 			if(goal.isCompleted == 1 && goal.totalCountToday > 0 && goal.mode == "habits") {
-		// 				that.achievements['Checked'].push(goal.name);
-		// 			}
-
-		// 			//topDays
-		// 			if(goal.mode == "tasks" && goal.totalPointsToday >= goal.topScore) {
-		// 				that.achievements['Top Day'].push(goal.name);
-		// 			}
-		// 		}
-		// 	})
-
-		// 	that.setState({
-		// 		goals: goals,
-		// 		refreshing: false
-		// 	});
-		// }).catch(err => {
-		// 	console.log("getGoals() Error:", err);
-		// })
-		// this.loadJournal();
-		
 		this.getReadableDate();
 	}
 

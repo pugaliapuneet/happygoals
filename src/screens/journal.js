@@ -411,6 +411,8 @@ class JournalScreen extends Component{
 					chartDataOfPoints = chartDataOfPoints.slice(Math.max(chartDataOfPoints.length - 30, 1));
 				}
 				let topScore = chartDataOfPoints.reduce(function(a, b){ return a.value > b.value ? a : b }).value;
+				let totalScore = chartDataOfPoints.reduce(function(a, b){ return a + b.value }, 0);
+				let agvScore = totalScore/30;
 				let recentScore = this.state.goals.reduce(function(total, currentValue, index){ return total + (currentValue.recentScore || 0)}, 0);
 
 				stackChartData = stackChartData.slice(Math.max(stackChartData.length - 30, 1));
@@ -463,7 +465,7 @@ class JournalScreen extends Component{
 							svg={{ stroke: 'rgba(0,0,0,0)', fill: "#C7EBCA", strokeWidth: 2, strokeOpacity: 1 }}
 							yAccessor={({ item }) => item.value}>
 						</BarChart>
-						<ChartBottom data={{'Top': topScore, 'Avg': topScore, 'Recent': recentScore, 'Week': 0}}></ChartBottom>
+						<ChartBottom style={{marginHorizontal: 20}} data={{'Top': topScore, 'Avg': agvScore, 'Recent': recentScore, 'Week': 0}}></ChartBottom>
 					</View>
 
 					<ScrollView style={{position: 'absolute', top: 250, bottom: 0, left: 0, right: 0, marginBottom: 10}}>

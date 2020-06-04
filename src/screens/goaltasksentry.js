@@ -104,7 +104,7 @@ export default class goaltaskentry extends Component{
 				g.cardStatus = listed;
 		}
 
-		g.stat = <Text style={[styles.stat, {lineHeight: 48}]}>{g.bigScore}</Text>;
+		g.stat = <Text style={[styles.stat, {lineHeight: 48}]}>{g.totalPointsToday}</Text>;
 
 		let optionalCardStyle = {};
 		let p = g.recentScore/g.bigScore*100;
@@ -169,7 +169,7 @@ export default class goaltaskentry extends Component{
 								<Icon name='arrow-up' type="material-community" color="green" size={19}/>
 							</View> */}
 						</View>
-						<Text style={[styles.stat]}>{g.bigScore}</Text>
+						<Text style={[styles.stat]}>{g.totalPointsToday}</Text>
 					</View>
 					<View style={{position:'absolute', bottom:0, left:0, right:0}}>
 						<AreaChart

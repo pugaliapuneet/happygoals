@@ -73,7 +73,11 @@ export default class cardheader extends Component{
 			});
 			// chartDataOfPoints = Object.values(chartDataObj).reverse();
 			console.log(chartDataOfPoints)
-			that.setState({chartData:chartDataOfPoints})
+			let totalScore = chartDataOfPoints.reduce(function(a, b){ return a + b.value }, 0);
+			that.setState({
+				chartData:chartDataOfPoints,
+				agvScore: totalScore/30
+			})
 		}).catch(err => {
 			console.log("EEEEE", err);
 		});
@@ -181,7 +185,7 @@ export default class cardheader extends Component{
 								>
 								</BarChart>}
 							</View>
-							<ChartBottom data={{'Top': g.topScore, 'Avg': g.topScore, 'Recent': g.recentScore, 'Week': g.completed.weeks}}></ChartBottom>
+							<ChartBottom data={{'Top': g.topScore, 'Avg': this.state.agvScore, 'Recent': g.recentScore, 'Week': g.completed.weeks}}></ChartBottom>
 						</View>
 						{
 							this.state.expanded &&

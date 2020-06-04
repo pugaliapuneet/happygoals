@@ -158,7 +158,7 @@ export default class newGoal extends Component {
 						onPress={() => that.props.closeModal()}
 					/>
 					<Text style={{fontSize: 18, textTransform: 'uppercase'}}>{this.props.goalName}</Text>
-					<Text style={{fontSize: 18, opacity: .3}}>Add new activity</Text>
+					<Text style={{fontSize: 18, opacity: .3}}>{this.props.taskName ? 'Edit activity' : 'Add new activity'}</Text>
 				</View>
 				<Divider style={{ backgroundColor: '#E3E3E3', height: 1.5 }} />
 				<View style={{padding: 25}}>
@@ -190,7 +190,7 @@ export default class newGoal extends Component {
 						size={33}
 						containerStyle={{marginTop: 20}}
 						color={primaryColor}
-						onPress={()=>{(this.props.taskName && this.updateItem()) || this.pushItem()}}
+						onPress={()=>{this.props.taskName ? this.updateItem() : this.pushItem()}}
 					/>
 				</View>
 			</View>

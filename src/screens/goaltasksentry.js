@@ -42,7 +42,7 @@ export default class goaltaskentry extends Component{
 			})
 		})
 	}
-
+	/*
 	_toggleEditMode = () => {
 
 		let that = this;
@@ -52,7 +52,7 @@ export default class goaltaskentry extends Component{
 			// console.log(this.state.editMode);
 		})
 	}
-
+	*/
 	shouldComponentUpdate(nextProps) {
 		if(this.forceRender)
 		{

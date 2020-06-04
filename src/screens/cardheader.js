@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, TouchableWithoutFeedback, TouchableNativeFeedback, Alert, TouchableOpacity, ToastAndroid, AsyncStorage, InteractionManager} from 'react-native';
+import {Platform, StyleSheet, Text, View, TouchableWithoutFeedback, TouchableNativeFeedback, Alert, TouchableOpacity, ToastAndroid, AsyncStorage, InteractionManager, LayoutAnimation} from 'react-native';
 import { CheckBox, Divider, Icon } from 'react-native-elements'
 import {styles, primaryColor} from '../../styles.js';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
@@ -17,6 +17,16 @@ export default class cardheader extends Component{
 			expanded: false,
 			editMode: false,
 		}
+	}
+
+	_toggleEditMode = () => {
+
+		let that = this;
+		// this.forceRender = true;
+		LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+		this.setState({editMode: !this.state.editMode}, function(){
+			// console.log(this.state.editMode);
+		})
 	}
 
 	componentDidMount() {
@@ -186,6 +196,14 @@ export default class cardheader extends Component{
 								</BarChart>}
 							</View>
 							<ChartBottom data={{'Top': g.topScore, 'Avg': this.state.agvScore, 'Recent': g.recentScore, 'Week': g.completed.weeks}}></ChartBottom>
+							<Icon 
+								name="settings-outline"
+								color="grey"
+								type="material-community"
+								size={28}
+								containerStyle={{marginTop: 30, alignItems: 'flex-end'}}
+								onPress={() => {this.setState({expanded: !this.state.expanded})}}
+							/>
 						</View>
 						{
 							this.state.expanded &&

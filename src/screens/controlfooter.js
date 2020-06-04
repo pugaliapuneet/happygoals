@@ -27,20 +27,20 @@ export default class ControlFooter extends Component{
 	render() {
 		const g = this.props.g;
 		return (
-			<ScrollView style={[styles.rowwrap, {borderTopWidth: 1, borderColor: 'rgba(255,255,255,0.1)', marginTop: 10}]} horizontal={true}>
+			<ScrollView style={[styles.rowwrap, {borderTopWidth: 1, borderColor: 'rgba(0,0,0,0.1)'}]} horizontal={true}>
 				{
 				g.mode == "habits" &&
 				<View style={styles.rowwrap}>
 					<TouchableWithoutFeedback onPress={() => {this.props.dashboardFunctions._toggleNHModal(g.name);}}>
 						<View style={[styles.rowwrap, {paddingLeft: 25, paddingVertical: 16, opacity: 0.75}]}>
-							<Icon name='plus-circle-outline' type="material-community" color="white" size={21}/>
-							<Text style={{color: 'white', marginLeft: 5, fontSize: 14}}>Add Habit</Text>
+							<Icon name='plus-circle-outline' type="material-community" color="" size={21}/>
+							<Text style={{color: '', marginLeft: 5, fontSize: 14}}>Add Habit</Text>
 						</View>
 					</TouchableWithoutFeedback>
 					<TouchableWithoutFeedback onPress={() => {this.props.showAllWeeks();}}>
 						<View style={[styles.rowwrap, {paddingLeft: 25, paddingVertical: 16, opacity: 0.75}]}>
-							<Icon name='all-inclusive' type="material-community" color="white" size={21}/>
-							<Text style={{color: 'white', marginLeft: 5, fontSize: 14}}>Show all weeks</Text>
+							<Icon name='all-inclusive' type="material-community" color="" size={21}/>
+							<Text style={{color: '', marginLeft: 5, fontSize: 14}}>Show all weeks</Text>
 						</View>
 					</TouchableWithoutFeedback>
 				</View>
@@ -50,14 +50,14 @@ export default class ControlFooter extends Component{
 				<View style={styles.rowwrap}>
 					<TouchableWithoutFeedback onPress={() => {this.props.dashboardFunctions._toggleNTModal(g.name);}}>
 						<View style={[styles.rowwrap, {paddingLeft: 25, paddingVertical: 16, opacity: 0.75}]}>
-							<Icon name='plus-circle-outline' type="material-community" color="white" size={21}/>
-							<Text style={{color: 'white', marginLeft: 5, fontSize: 14}}>Add Task</Text>
+							<Icon name='plus-circle-outline' type="material-community" color="" size={21}/>
+							<Text style={{color: '', marginLeft: 5, fontSize: 14}}>Add Task</Text>
 						</View>
 					</TouchableWithoutFeedback>
 					<TouchableWithoutFeedback onPress={() => this.props._toggleEditMode()}>
 						<View style={[styles.rowwrap, {paddingLeft: 25, paddingVertical: 16, opacity: 0.75}]}>
-							<Icon name='circle-edit-outline' type="material-community" color="white" size={21}/>
-							<Text style={{color: 'white', marginLeft: 5, fontSize: 14}}>Edit Task</Text>
+							<Icon name='circle-edit-outline' type="material-community" color="" size={21}/>
+							<Text style={{color: '', marginLeft: 5, fontSize: 14}}>Edit Task</Text>
 						</View>
 					</TouchableWithoutFeedback>
 				</View>
@@ -76,8 +76,8 @@ export default class ControlFooter extends Component{
 					);
 				}}>
 					<View style={[styles.rowwrap, {paddingLeft: 25, paddingVertical: 16, opacity: 0.75}]}>
-						<Icon name='check-all' type="material-community" color="white" size={21}/>
-						<Text style={{color: 'white', marginLeft: 5, fontSize: 14}}>Close Goal</Text>
+						<Icon name='check-all' type="material-community" color="" size={21}/>
+						<Text style={{color: '', marginLeft: 5, fontSize: 14}}>Close Goal</Text>
 					</View>
 				</TouchableWithoutFeedback>
 				<TouchableWithoutFeedback onPress={() => {
@@ -94,8 +94,8 @@ export default class ControlFooter extends Component{
 					);
 				}}>
 					<View style={[styles.rowwrap, {paddingLeft: 25, paddingVertical: 16, opacity: 0.75}]}>
-						<Icon name='delete-outline' type="material-community" color="white" size={21}/>
-						<Text style={{color: 'white', marginLeft: 5, fontSize: 14}}>Delete Goal</Text>
+						<Icon name='delete-outline' type="material-community" color="" size={21}/>
+						<Text style={{color: '', marginLeft: 5, fontSize: 14}}>Delete Goal</Text>
 					</View>
 				</TouchableWithoutFeedback>
 			</ScrollView>

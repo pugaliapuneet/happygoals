@@ -158,6 +158,7 @@ class DashboardScreen extends Component{
 			{},
 			function(err, numReplaced){
 				AsyncStorage.setItem("RefreshDashboard", "");
+				that._toggleGCModal();
 				that._onRefresh();
 				ToastAndroid.show(goalName+" deleted successfully. "+numReplaced+" row upated.", ToastAndroid.LONG);
 			}
@@ -179,6 +180,7 @@ class DashboardScreen extends Component{
 			{},
 			function(err, numReplaced){
 				AsyncStorage.setItem("RefreshDashboard", "");
+				that._toggleGCModal();
 				that._onRefresh();
 				ToastAndroid.show(goalName+" closed successfully. "+numReplaced+" row upated.", ToastAndroid.LONG);
 			}

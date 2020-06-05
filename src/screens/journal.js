@@ -8,7 +8,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Modal from "react-native-modal";
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-import { AreaChart, Grid, BarChart, StackedBarChart, StackedAreaChart } from 'react-native-svg-charts';
+import { ProgressCircle, Grid, BarChart, StackedBarChart, StackedAreaChart } from 'react-native-svg-charts';
 import * as shape from 'd3-shape';
 
 var moment = require('moment');
@@ -447,6 +447,7 @@ class JournalScreen extends Component{
 						xyz.push(this._renderItem({item: l}));
 					})
 
+				let ringStyle = this.readableDate == 'Today' ? {height: 125, width: "100%"} : {width: 65, height: 45};
 				body = <View style={{height: '100%'}}>
 					{/* <LinearGradient colors={['#37474F', '#78909C']} style={{position: 'absolute', left: 0, right: 0, top: 0, bottom: 0}}></LinearGradient> */}
 
@@ -456,7 +457,18 @@ class JournalScreen extends Component{
 							<Text style={{fontFamily: 'Quicksand-Medium', textAlign: 'center', color: primaryColor}}>{this.readableDate}</Text>
 							<Icon name='arrow-right' type="material-community" color={primaryColor} size={21} containerStyle={{paddingHorizontal: 20}} onPress={() => this.changeDate('next')}/>
 						</View>
-						<Text style={styles.journalScore}>{pointsToday}</Text>
+						<View style={{flexDirection: "row", justifyContent: 'center'}}>
+							<ProgressCircle
+								style={ ringStyle }
+								progress={ pointsToday/agvScore }
+								progressColor={primaryColor}
+								startAngle={ -Math.PI }
+								endAngle={ Math.PI }
+							>
+								{this.readableDate == 'Today' && <Text style={[styles.journalScore, {height: '100%', textAlignVertical: 'center'}]}>{pointsToday}</Text>}
+							</ProgressCircle>
+							{this.readableDate == 'Today' || <Text style={[styles.journalScore, {lineHeight: 45, fontSize: 36, fontWeight: 'bold'}]}>{pointsToday}</Text>}
+						</View>
 						<BarChart
 							style={{ width: '100%', height: 100, borderWidth: 0}}
 							data={ chartDataOfPoints }
@@ -468,7 +480,7 @@ class JournalScreen extends Component{
 						<ChartBottom style={{marginHorizontal: 20}} data={{'Top': topScore, 'Avg': agvScore, 'Recent': recentScore, 'Week': 0}}></ChartBottom>
 					</View>
 
-					<ScrollView style={{position: 'absolute', top: 250, bottom: 0, left: 0, right: 0, marginBottom: 10}}>
+					<ScrollView style={{marginBottom: 10}}>
 						<View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignContent: 'flex-end'}}>
 							<View style={{marginLeft: 10}}>
 								<Text style={[styles.goal, {marginTop: 20, color: primaryColor, marginLeft: 10}]}>{this.title}</Text>

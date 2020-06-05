@@ -1,3 +1,6 @@
+//TODO: use bundler
+//TODO: remove unused imports
+//TODO: organize components, screens in proper folders
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, FlatList, TouchableOpacity, Image, CheckBox, ScrollView, Alert, ToastAndroid, RefreshControl, Button, LayoutAnimation, ImageBackground, InteractionManager, AsyncStorage} from 'react-native';
 import {styles} from '../../styles.js';
@@ -110,6 +113,7 @@ class DashboardScreen extends Component{
 		// this.logStateChanges(prevProps, prevState);
 	}
 
+	//TODO: 4 toggle functions below can be generalised
 	_toggleNGModal = () => this.setState({ isNGModalVisible: !this.state.isNGModalVisible });
 	_toggleNHModal = (editingGoal) => {
 		this.setState({
@@ -139,6 +143,7 @@ class DashboardScreen extends Component{
 
 	//TODO: The delete and close goal functions look very similar, it can be merged into a common function probably
 	deleteGoal = (id, name) => {
+		//TODO: can we avoid middleman variable?
 		const goalId = id;
 		const goalName = name;
 

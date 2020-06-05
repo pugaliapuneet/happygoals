@@ -1,6 +1,7 @@
 const Datastore = require('react-native-local-mongodb');
 var moment = require('moment');
 
+//TODO: split CRUD operations, computational operations, datastore operations?
 class model {
 	dbgoals = new Datastore({ filename: 'goals1', autoload: true });
 	dblogs = new Datastore({ filename: 'logs2', autoload: true });
@@ -128,6 +129,7 @@ class model {
 
 				// console.log("PPPPP", pp);
 
+				// TODO: delete 5star concept or move to readme?
 				// this.fiveStarGoal = [{
 				// 	name: 'Service Business',
 				// 	status: 1,
@@ -186,6 +188,7 @@ class model {
 
 						goalPromise.forEach(function(itemPromise, i3) { //console.log("MMMM", itemPromise)
 
+							// TODO: Delete the concept of a 5 star goal.
 							//Add to 5star GOAL
 							// if(!this.fiveStarGoal.items)
 							// 	this.fiveStarGoal.items = [];
@@ -198,6 +201,7 @@ class model {
 							// }
 
 							//save logs to item
+							//TODO: better meaningful name for goalsWithPromises
 							goalsWithPromises[i2].items[i3].logs = itemPromise[0];
 							goalsWithPromises[i2].items[i3].bigScore = Math.round(goalsWithPromises[i2].items[i3].logs.length/(goalsWithPromises[i2].daysSpent * goalsWithPromises[i2].items[i3].repetition / 7)*100, 2)+"%";
 
@@ -222,6 +226,7 @@ class model {
 							goalsWithPromises[i2].items[i3].countToday = itemPromise[1];
 							goalsWithPromises[i2].items[i3].pointsToday = itemPromise[1]*goalsWithPromises[i2].items[i3].points;
 
+							//TODO: The 3 if clauses look very similar. Can it be generalised?
 							if(itemPromise[1]) {
 								totalCountToday += itemPromise[1];
 								totalPointsToday += itemPromise[1]*goalsWithPromises[i2].items[i3].points;
@@ -246,6 +251,7 @@ class model {
 
 						})
 
+						//TODO: possible to use construction here? or the reverse?
 						goalsWithPromises[i2].totalCountToday = totalCountToday;
 						goalsWithPromises[i2].totalPointsToday = totalPointsToday;
 						goalsWithPromises[i2].totalCount = totalCount;
@@ -260,6 +266,7 @@ class model {
 							goalsWithPromises[i2].dayScore = dayScore;
 						}
 
+						//TODO: separate function for label computation
 						if(goalsWithPromises[i2].totalPointsToday >= goalsWithPromises[i2].topScore)
 							goalsWithPromises[i2].labels.push("TopDay!");
 
@@ -270,6 +277,8 @@ class model {
 
 						//Big Score
 
+						//TODO: Do we need avg based bigscore now?
+						//TODO: extract function for score calculation?
 						if(goalsWithPromises[i2].mode == "tasks") {
 							goalsWithPromises[i2].bigScore = Math.round(goalsWithPromises[i2].totalPoints/goalsWithPromises[i2].daysSpent*10)/10;
 							goalsWithPromises[i2].isCompleted = goalsWithPromises[i2].totalPointsToday/goalsWithPromises[i2].bigScore >= 1 ? 1 : 0;
@@ -278,6 +287,7 @@ class model {
 						else if(goalsWithPromises[i2].mode == "habits") {
 							goalsWithPromises[i2].bigScore = Math.round(goalsWithPromises[i2].totalCount/(goalsWithPromises[i2].totalDailyRepetitionTarget*goalsWithPromises[i2].daysSpent)*100);
 							goalsWithPromises[i2].isCompleted = goalsWithPromises[i2].bigScore >= 100 ? 1 : 0;
+							//TODO: inline using math.max?
 							if(goalsWithPromises[i2].bigScore > 100)
 								goalsWithPromises[i2].bigScore = 100;
 						}
@@ -305,6 +315,7 @@ class model {
 		}
 	}
 
+	//TODO: delete the next two functions?
 	getTags() {
 		////// Appreciation
 		// Up by 50%/100%
@@ -696,6 +707,7 @@ class model {
 		// return {week: 3, day: 2};
 	}
 
+	//TODO: Move to a flat file database?
 	getIdeas() {
 		return ideas = [{
 			dummy: true, title: 'Track your work', tip: 'The big score is your daily average',

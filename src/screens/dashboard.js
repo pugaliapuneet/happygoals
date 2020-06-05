@@ -17,7 +17,7 @@ import HappyModal from '../components/HappyModal.js';
 import LinearGradient from 'react-native-linear-gradient';
 
 import { Icon } from 'react-native-elements'
-import { TestIds, BannerAd, BannerAdSize} from '@react-native-firebase/admob';
+// import { TestIds, BannerAd, BannerAdSize} from '@react-native-firebase/admob';
 import { Svg, Path } from 'react-native-svg';
 
 var moment = require('moment');

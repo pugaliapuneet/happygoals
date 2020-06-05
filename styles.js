@@ -98,6 +98,7 @@ const styles = StyleSheet.create({
 });
 
 
+//TODO: Card state styles not needed anymore.
 const listed = StyleSheet.create({
   container: {},
   card: {backgroundColor: 'rgba(0,0,10,0.75)', backgroundColor: '#37474F', margin: 15, borderRadius: 5, marginTop: 0, overflow: 'hidden'},

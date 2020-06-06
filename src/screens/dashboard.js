@@ -243,7 +243,7 @@ class DashboardScreen extends Component{
 
 			let body;
 
-			headerContent = <View style={{margin: 10}}>
+			headerContent = <View style={{margin: 10, marginTop: 20}}>
 				<View style={[ {marginTop: 16, justifyContent: 'space-between'}, styles.rowwrap ]}>
 					<View>{this.renderLogo()}</View>
 					<View>
@@ -322,12 +322,14 @@ class DashboardScreen extends Component{
 						<NewHabit closeModal={this._toggleNHModal} goalName={this.state.editingGoal} postSubmit={this.loadDashboard}/>
 					</HappyModal>
 
-					<HappyModal isVisible={this.state.isNTModalVisible} closeHandle={this._toggleNTModal}>
-						<NewTask closeModal={this._toggleNTModal} goalName={this.state.editingGoal} taskName={this.state.editingTask} postSubmit={this.loadDashboard}/>
-					</HappyModal>
+					
 					
 					<HappyModal isVisible={this.state.isGCModalVisible} closeHandle={this._toggleGCModal}>
 						<CardHeader g={this.state.viewGoal} onP={null} dashboardFunctions={dashboardFunctions} />
+						
+						<HappyModal isVisible={this.state.isNTModalVisible} closeHandle={this._toggleNTModal}>
+							<NewTask closeModal={this._toggleNTModal} goalName={this.state.editingGoal} taskName={this.state.editingTask} postSubmit={this.loadDashboard}/>
+						</HappyModal>
 					</HappyModal>
 
 					{/* <BannerAd

@@ -450,7 +450,7 @@ class JournalScreen extends Component{
 				body = <View style={{height: '100%'}}>
 					{/* <LinearGradient colors={['#37474F', '#78909C']} style={{position: 'absolute', left: 0, right: 0, top: 0, bottom: 0}}></LinearGradient> */}
 
-					<View style={[{paddingTop: 20, padding: 0, margin: 0, borderRadius: 0}]}>
+					<View style={[{paddingTop: 30, padding: 0, margin: 0, borderRadius: 0}]}>
 						<View style={[styles.rowwrap, {justifyContent: 'space-between', marginBottom: 20}]}>
 							<Icon name='arrow-left' type="material-community" color={primaryColor} size={21} containerStyle={{paddingHorizontal: 20}} onPress={() => this.changeDate('prev')}/>
 							<Text style={{fontFamily: 'Quicksand-Medium', textAlign: 'center', color: primaryColor}}>{this.readableDate}</Text>

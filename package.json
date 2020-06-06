@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@react-native-community/datetimepicker": "^2.2.1",
-    "@react-native-firebase/admob": "^6.4.0",
     "@react-native-firebase/app": "^6.4.0",
     "moment": "^2.24.0",
     "react": "16.8.6",

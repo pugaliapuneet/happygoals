@@ -128,7 +128,7 @@ export default class goaltaskentry extends Component{
 			g.statLegend = <Text style={{position: 'absolute', bottom:-11, alignSelf:'center', textAlign:'center', fontFamily: 'Quicksand-Regular', color: 'white', fontSize: 12, lineHeight: 17, backgroundColor: 'green', paddingBottom: 3, paddingHorizontal: 8, borderRadius: 10, overflow: 'hidden'}}>Top Day</Text>
 		}
 		*/
-		g.stat = <AnimateNumber style={[styles.stat, {lineHeight: 48}, optionalPointStyle]} value={g.totalPointsToday} countBy={0.1} formatter={(val) => {
+		g.stat = <AnimateNumber style={[styles.stat, {lineHeight: 48}, optionalPointStyle]} interval={1} value={g.totalPointsToday} countBy={0.1} formatter={(val) => {
 			return Math.round(val * 10) / 10
 		  }}/>;
 		// Override cards' color to a fixed color

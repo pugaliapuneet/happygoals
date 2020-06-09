@@ -14,6 +14,7 @@ var moment = require('moment');
 import { Defs, LinearGradient, Stop } from 'react-native-svg'
 import { AreaChart, Grid } from 'react-native-svg-charts'
 import * as shape from 'd3-shape'
+import AnimateNumber from 'react-native-animate-number'
 
 export default class goaltaskentry extends Component{
 	viewGoal = null;
@@ -127,7 +128,9 @@ export default class goaltaskentry extends Component{
 			g.statLegend = <Text style={{position: 'absolute', bottom:-11, alignSelf:'center', textAlign:'center', fontFamily: 'Quicksand-Regular', color: 'white', fontSize: 12, lineHeight: 17, backgroundColor: 'green', paddingBottom: 3, paddingHorizontal: 8, borderRadius: 10, overflow: 'hidden'}}>Top Day</Text>
 		}
 		*/
-		g.stat = <Text style={[styles.stat, {lineHeight: 48}, optionalPointStyle]}>{g.totalPointsToday}</Text>;
+		g.stat = <AnimateNumber style={[styles.stat, {lineHeight: 48}, optionalPointStyle]} value={g.totalPointsToday} countBy={0.1} formatter={(val) => {
+			return Math.round(val * 10) / 10
+		  }}/>;
 		// Override cards' color to a fixed color
 		// optionalCardStyle = {backgroundColor: '#37474F'};
 		// sortedItems = g.items.sort(function(obj1, obj2) {

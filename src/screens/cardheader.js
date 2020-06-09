@@ -36,6 +36,10 @@ export default class cardheader extends Component{
 	}
 
 	componentDidUpdate(prevProps) {
+		if (prevProps.g.totalPoints < this.props.g.totalPoints) {
+			if ((this.props.g.recentScore/this.props.g.bigScore*100) > 125)
+					ToastAndroid.show("You have improved today", ToastAndroid.LONG);
+		}
 		if (prevProps.g.totalPoints !== this.props.g.totalPoints) {
 			InteractionManager.runAfterInteractions(() => {
 				this.renderChart(this.props.g.name);

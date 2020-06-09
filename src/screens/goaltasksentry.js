@@ -104,26 +104,30 @@ export default class goaltaskentry extends Component{
 				g.cardStatus = listed;
 		}
 
-		g.stat = <Text style={[styles.stat, {lineHeight: 48}]}>{g.totalPointsToday}</Text>;
-
+		
 		let optionalCardStyle = {};
 		let p = g.recentScore/g.bigScore*100;
+		let stopColor = "#E3E0E0";
+		let optionalPointStyle = {};
 		
 		if (p < 75) {
 			// optionalCardStyle = {borderColor: '#c62828', borderWidth: 2};
 			// g.statLegend = <Text style={{position: 'absolute', bottom:-11, alignSelf:'center', textAlign:'center', fontFamily: 'Quicksand-Regular', color: 'white', fontSize: 12, lineHeight: 17, backgroundColor: '#c62828', paddingBottom: 3, paddingHorizontal: 8, borderRadius: 10, overflow: 'hidden'}}>Slowdown</Text>
 			g.statLabel = <Text style={{fontFamily: 'Quicksand-Regular', color: 'white', fontSize: 12, lineHeight: 17, backgroundColor: "#c62828", paddingHorizontal: 8, paddingBottom: 2, borderRadius: 5, overflow: 'hidden'}}>Slowdown</Text>
 		}
-		/*
 		else if (p > 125) {
-			optionalCardStyle = {borderColor: '#3DA848', borderWidth: 2};
-			g.statLegend = <Text style={{position: 'absolute', bottom:-11, alignSelf:'center', textAlign:'center', fontFamily: 'Quicksand-Regular', color: 'white', fontSize: 12, lineHeight: 17, backgroundColor: 'green', paddingBottom: 3, paddingHorizontal: 8, borderRadius: 10, overflow: 'hidden'}}>Acceleration</Text>
+			stopColor = '#8DBF88';
+			optionalPointStyle = {color: '#3DA848', fontFamily: 'Quicksand-Regular'};
+			// optionalCardStyle = {borderColor: '#3DA848', borderWidth: 2};
+			// g.statLegend = <Text style={{position: 'absolute', bottom:-11, alignSelf:'center', textAlign:'center', fontFamily: 'Quicksand-Regular', color: 'white', fontSize: 12, lineHeight: 17, backgroundColor: 'green', paddingBottom: 3, paddingHorizontal: 8, borderRadius: 10, overflow: 'hidden'}}>Acceleration</Text>
 		}
+		/*
 		if (g.totalPointsToday >= g.topScore) {
 			optionalCardStyle = { borderColor: '#3DA848', borderWidth: 2};
 			g.statLegend = <Text style={{position: 'absolute', bottom:-11, alignSelf:'center', textAlign:'center', fontFamily: 'Quicksand-Regular', color: 'white', fontSize: 12, lineHeight: 17, backgroundColor: 'green', paddingBottom: 3, paddingHorizontal: 8, borderRadius: 10, overflow: 'hidden'}}>Top Day</Text>
 		}
 		*/
+		g.stat = <Text style={[styles.stat, {lineHeight: 48}, optionalPointStyle]}>{g.totalPointsToday}</Text>;
 		// Override cards' color to a fixed color
 		// optionalCardStyle = {backgroundColor: '#37474F'};
 		// sortedItems = g.items.sort(function(obj1, obj2) {
@@ -152,7 +156,7 @@ export default class goaltaskentry extends Component{
 		const Gradient = ({ index }) => (
             <Defs key={index}>
                 <LinearGradient id={'gradient'} x1={'0%'} y1={'0%'} x2={'0%'} y2={'100%'}>
-                    <Stop offset={'0%'} stopColor={'#8DBF88'} stopOpacity={0.9}/>
+                    <Stop offset={'0%'} stopColor={stopColor} stopOpacity={0.9}/>
                     <Stop offset={'100%'} stopColor={'#FFF'} stopOpacity={0.1}/>
                 </LinearGradient>
             </Defs>

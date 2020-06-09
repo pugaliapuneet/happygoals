@@ -447,7 +447,7 @@ class JournalScreen extends Component{
 						xyz.push(this._renderItem({item: l}));
 					})
 
-				let ringStyle = this.readableDate == 'Today' ? {height: 125, width: "100%"} : {width: 65, height: 45};
+				// let ringStyle = this.readableDate == 'Today' ? {height: 125, width: "100%"} : {width: 65, height: 45};
 				body = <View style={{height: '100%'}}>
 					{/* <LinearGradient colors={['#37474F', '#78909C']} style={{position: 'absolute', left: 0, right: 0, top: 0, bottom: 0}}></LinearGradient> */}
 
@@ -459,15 +459,15 @@ class JournalScreen extends Component{
 						</View>
 						<View style={{flexDirection: "row", justifyContent: 'center'}}>
 							<ProgressCircle
-								style={ ringStyle }
+								style={{height: 125, width: "100%"}}
 								progress={ pointsToday/agvScore }
 								progressColor={primaryColor}
 								startAngle={ -Math.PI }
 								endAngle={ Math.PI }
 							>
-								{this.readableDate == 'Today' && <Text style={[styles.journalScore, {height: '100%', textAlignVertical: 'center'}]}>{pointsToday}</Text>}
+								<Text style={[styles.journalScore, {height: '100%', textAlignVertical: 'center'}]}>{pointsToday}</Text>
 							</ProgressCircle>
-							{this.readableDate == 'Today' || <Text style={[styles.journalScore, {lineHeight: 45, fontSize: 36, fontWeight: 'bold'}]}>{pointsToday}</Text>}
+							{/* {this.readableDate == 'Today' || <Text style={[styles.journalScore, {lineHeight: 45, fontSize: 36, fontWeight: 'bold'}]}>{pointsToday}</Text>} */}
 						</View>
 						<BarChart
 							style={{ width: '100%', height: 100, borderWidth: 0}}

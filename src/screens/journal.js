@@ -465,7 +465,7 @@ class JournalScreen extends Component{
 								startAngle={ -Math.PI }
 								endAngle={ Math.PI }
 							>
-								<Text style={[styles.journalScore, {height: '100%', textAlignVertical: 'center'}]}>{pointsToday}</Text>
+								<Text style={[styles.journalScore, {height: '100%', textAlignVertical: 'center', paddingTop: 6}]}>{pointsToday}</Text>
 							</ProgressCircle>
 							{/* {this.readableDate == 'Today' || <Text style={[styles.journalScore, {lineHeight: 45, fontSize: 36, fontWeight: 'bold'}]}>{pointsToday}</Text>} */}
 						</View>

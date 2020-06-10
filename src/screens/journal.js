@@ -412,7 +412,9 @@ class JournalScreen extends Component{
 				}
 				let topScore = chartDataOfPoints.reduce(function(a, b){ return a.value > b.value ? a : b }).value;
 				let totalScore = chartDataOfPoints.reduce(function(a, b){ return a + b.value }, 0);
-				let agvScore = totalScore/30;
+				let effectiveDays = chartDataOfPoints.reduce(function(a, b){ return a + (b.value? 1 : 0) }, 0);
+				if (pointsToday > 0) effectiveDays--;
+				let agvScore = effectiveDays > 0 ? (totalScore-pointsToday)/effectiveDays : 0;
 				let recentScore = this.state.goals.reduce(function(total, currentValue, index){ return total + (currentValue.recentScore || 0)}, 0);
 
 				stackChartData = stackChartData.slice(Math.max(stackChartData.length - 30, 1));

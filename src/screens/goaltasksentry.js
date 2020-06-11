@@ -116,18 +116,21 @@ export default class goaltaskentry extends Component{
 			// g.statLegend = <Text style={{position: 'absolute', bottom:-11, alignSelf:'center', textAlign:'center', fontFamily: 'Quicksand-Regular', color: 'white', fontSize: 12, lineHeight: 17, backgroundColor: '#c62828', paddingBottom: 3, paddingHorizontal: 8, borderRadius: 10, overflow: 'hidden'}}>Slowdown</Text>
 			g.statLabel = <Text style={{fontFamily: 'Quicksand-Regular', color: 'white', fontSize: 12, lineHeight: 17, backgroundColor: "#c62828", paddingHorizontal: 8, paddingBottom: 2, borderRadius: 5, overflow: 'hidden'}}>Slowdown</Text>
 		}
-		else if (p > 125) {
-			stopColor = '#8DBF88';
-			optionalPointStyle = {color: '#3DA848', fontFamily: 'Quicksand-Regular'};
-			// optionalCardStyle = {borderColor: '#3DA848', borderWidth: 2};
-			// g.statLegend = <Text style={{position: 'absolute', bottom:-11, alignSelf:'center', textAlign:'center', fontFamily: 'Quicksand-Regular', color: 'white', fontSize: 12, lineHeight: 17, backgroundColor: 'green', paddingBottom: 3, paddingHorizontal: 8, borderRadius: 10, overflow: 'hidden'}}>Acceleration</Text>
-		}
 		/*
+		else if (p > 125) {
+			optionalCardStyle = {borderColor: '#3DA848', borderWidth: 2};
+			g.statLegend = <Text style={{position: 'absolute', bottom:-11, alignSelf:'center', textAlign:'center', fontFamily: 'Quicksand-Regular', color: 'white', fontSize: 12, lineHeight: 17, backgroundColor: 'green', paddingBottom: 3, paddingHorizontal: 8, borderRadius: 10, overflow: 'hidden'}}>Acceleration</Text>
+		}
+
 		if (g.totalPointsToday >= g.topScore) {
 			optionalCardStyle = { borderColor: '#3DA848', borderWidth: 2};
 			g.statLegend = <Text style={{position: 'absolute', bottom:-11, alignSelf:'center', textAlign:'center', fontFamily: 'Quicksand-Regular', color: 'white', fontSize: 12, lineHeight: 17, backgroundColor: 'green', paddingBottom: 3, paddingHorizontal: 8, borderRadius: 10, overflow: 'hidden'}}>Top Day</Text>
 		}
 		*/
+		// if (g.totalPointsToday > g.topScore) { // TODO: replace topScore with avgScore
+			stopColor = '#8DBF88';
+			optionalPointStyle = {color: '#3DA848', fontFamily: 'Quicksand-Regular'};
+		// }
 		g.stat = <AnimateNumber style={[styles.stat, {lineHeight: 48}, optionalPointStyle]} interval={1} value={g.totalPointsToday} countBy={0.1} formatter={(val) => {
 			return Math.round(val * 10) / 10
 		  }}/>;

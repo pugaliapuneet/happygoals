@@ -461,13 +461,15 @@ class JournalScreen extends Component{
 						</View>
 						<View style={{flexDirection: "row", justifyContent: 'center'}}>
 							<ProgressCircle
-								style={{height: 125, width: "100%"}}
+								style={{height: 125, width: 125}}
 								progress={ pointsToday/agvScore }
 								progressColor={primaryColor}
 								startAngle={ -Math.PI }
 								endAngle={ Math.PI }
 							>
-								<Text style={[styles.journalScore, {height: '100%', textAlignVertical: 'center', paddingTop: 6}]}>{pointsToday}</Text>
+								<View style={{height: '100%', width: '100%', alignItems: 'center', justifyContent: 'center'}}>
+									<Text style={[styles.journalScore, {paddingTop: 0}]}>{pointsToday}</Text>
+								</View>								
 							</ProgressCircle>
 							{/* {this.readableDate == 'Today' || <Text style={[styles.journalScore, {lineHeight: 45, fontSize: 36, fontWeight: 'bold'}]}>{pointsToday}</Text>} */}
 						</View>

@@ -134,6 +134,7 @@ export default class goaltaskentry extends Component{
 		g.stat = <AnimateNumber style={[styles.stat, {lineHeight: 48}, optionalPointStyle]} interval={1} value={g.totalPointsToday} countBy={0.1} formatter={(val) => {
 			return Math.round(val * 10) / 10
 		  }}/>;
+		g.stat1 = <Text style={[styles.stat, {lineHeight: 48}, optionalPointStyle]}>{g.totalPointsToday}</Text>
 		// Override cards' color to a fixed color
 		// optionalCardStyle = {backgroundColor: '#37474F'};
 		// sortedItems = g.items.sort(function(obj1, obj2) {

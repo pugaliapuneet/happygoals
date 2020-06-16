@@ -17,6 +17,7 @@ export default class cardheader extends Component{
 			expanded: false,
 			editMode: false,
 		}
+		props.g.stat = props.g.stat1; // override the animated number with static text
 	}
 
 	_toggleEditMode = () => {

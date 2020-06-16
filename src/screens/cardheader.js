@@ -110,6 +110,8 @@ export default class cardheader extends Component{
 		else
 			editIconStyle = {display: 'none'};
 
+		const tips = ["You can perform a task multiple times a day", "Long press to delete an entry"];
+
 		return (
 			// <TouchableWithoutFeedback onPress={() => { this.props.onP(); }}>
 				<View style={[styles.modal]}>
@@ -200,14 +202,16 @@ export default class cardheader extends Component{
 								</BarChart>}
 							</View>
 							<ChartBottom data={{'Top': g.topScore, 'Avg': this.state.agvScore, 'Recent': g.recentScore, 'Week': g.completed.weeks}}></ChartBottom>
-							<Icon 
-								name="settings-outline"
-								color="grey"
-								type="material-community"
-								size={28}
-								containerStyle={{marginTop: 30, alignItems: 'flex-end'}}
-								onPress={() => {this.setState({expanded: !this.state.expanded})}}
-							/>
+							<View style={[styles.rowwrap, {marginTop: 30, justifyContent: 'space-between', alignItems: 'center'}]}>
+								<Text style={[ {fontFamily: 'Quicksand-Bold', fontSize: 12, color: "grey"}]}>{tips[Math.floor(Math.random() * tips.length)]}</Text>
+								<Icon 
+									name="settings"
+									color="grey"
+									type="simple-line-icon"
+									size={23}
+									onPress={() => {this.setState({expanded: !this.state.expanded})}}
+								/>
+							</View>
 						</View>
 						{
 							this.state.expanded &&

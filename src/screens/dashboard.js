@@ -244,10 +244,10 @@ class DashboardScreen extends Component{
 			let body;
 
 			headerContent = <View style={{margin: 10, marginTop: 20}}>
-				<View style={[ {marginTop: 16, justifyContent: 'space-between'}, styles.rowwrap ]}>
+				<View style={[ {marginTop: 16, justifyContent: 'space-between', alignItems: 'center'}, styles.rowwrap ]}>
 					<View>{this.renderLogo()}</View>
 					<View>
-						<Icon name='plus-circle-outline' type="material-community" color="green" size={40} iconStyle={{}} onPress={this._toggleNGModal}/>
+						<Icon name='plus' type="simple-line-icon" color="green" size={31} iconStyle={{}} onPress={this._toggleNGModal}/>
 					</View>
 				</View>
 				<View style={{marginVertical:10}}>

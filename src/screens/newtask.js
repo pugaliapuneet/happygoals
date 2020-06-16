@@ -244,7 +244,7 @@ export default class newGoal extends Component {
 						<Text style={{fontSize: 13, width: 45, textAlign: 'center', color: '#BCBCBC'}}>Low Effort</Text>
 						<Text style={{fontSize: 13, width: 45, textAlign: 'center', color: '#BCBCBC'}}>High Value</Text>
 					</View>
-					<Icon name="check-circle-outline" type="material-community"
+					<Icon name="check" type="simple-line-icon"
 						size={33}
 						containerStyle={{marginTop: 20}}
 						color={primaryColor}

@@ -147,7 +147,7 @@ export default class newGoal extends Component {
 						onChangeText={(inputVal) => this.setState({goalName: inputVal})}
 						value={this.state.goalName}
 					/>
-					<Icon name="check-circle-outline" type="material-community"
+					<Icon name="check" type="simple-line-icon"
 						size={33}
 						containerStyle={{marginTop: 20}}
 						color={primaryColor}

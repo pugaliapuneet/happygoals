@@ -111,7 +111,10 @@ export default class cardheader extends Component{
 		else
 			editIconStyle = {display: 'none'};
 
-		const tips = ["You can perform a task multiple times a day", "Long press to delete an entry"];
+		const tips = [
+			// "You can perform a task multiple times a day", 
+			"Long press to delete an entry"
+		];
 
 		return (
 			// <TouchableWithoutFeedback onPress={() => { this.props.onP(); }}>
